@@ -35,6 +35,11 @@ sr.reveal(".left-contact", { origin: "left" });
 sr.reveal(".right-contact", { origin: "right" });
 sr.reveal(".end-section", { origin: "top" });
 
+function validateEmail(email) {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return emailRegex.test(email);
+}
+
 async function sendEmail() {
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
@@ -42,6 +47,15 @@ async function sendEmail() {
   const message = document.getElementById("message").value;
   const contactForm = document.getElementById("contact-form");
   const submitBtn = document.getElementById("submit-btn");
+
+  if (!name || !email || !mobile || !message) {
+    alert("Please enter all details");
+    return;
+  }
+  if (!validateEmail(email)) {
+    alert("Please enter valid email id");
+    return;
+  }
 
   const endpoint =
     "https://adventurous-sunglasses-frog.cyclic.app/api/email/send";
