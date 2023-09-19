@@ -12,8 +12,8 @@
 
 :root {
   --bg-color: #191919;
-  --second-bg-color: #101010;
-  --main-color: #e9204f;
+  --second-bg-color: #101010df;
+  --main-color: rgba(0, 255, 255, 0.416);
   --text-color: #fff;
   --second-color: #e4e4e4;
   --other-color: #c6c9d8bf;
@@ -183,9 +183,10 @@ header.sticky {
   gap: 4rem;
 }
 
-.about-img {
-  width: 100%;
-  height: auto;
+.about-img img {
+  width: 350px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .about-text h2 {
@@ -465,11 +466,6 @@ form {
     text-align: center;
     order: 2;
   }
-  .about-img img {
-    max-width: 100%;
-    width: 600px;
-    height: auto;
-  }
   .service-item {
     grid-template-columns: repeat(auto-fit, minmax(350px, auto));
   }
@@ -504,6 +500,10 @@ form {
   }
   .navlist.open {
     top: 100%;
+  }
+
+  .about-img img {
+    width: 260px;
   }
 }
 
