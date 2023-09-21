@@ -109,7 +109,6 @@ section {
   font-size: 20px;
   color: var(--second-color);
   font-weight: 600;
-  word-spacing: 15px;
   margin-bottom: 3.5rem;
 }
 
@@ -210,6 +209,21 @@ span {
   font-size: var(--p-font);
   line-height: 30px;
   margin-bottom: 3rem;
+}
+
+.about-text ol li {
+  margin-bottom: 1rem;
+  color: var(--other-color);
+}
+
+.about-text ol li::before {
+  content: "▶";
+  color: rgb(21, 156, 69);
+  margin-right: 4px;
+}
+
+.about-text ol {
+  margin: 1.5rem 0;
 }
 
 .text-center {
@@ -518,7 +532,6 @@ form {
   }
   .hero-text h4 {
     font-size: 18px;
-    word-spacing: 10px;
     margin-bottom: 30px;
   }
 
@@ -548,7 +561,6 @@ form {
   }
   .hero-text h4 {
     font-size: 16px;
-    word-spacing: 7px;
   }
   .right-contact input,
   .right-contact textarea {
