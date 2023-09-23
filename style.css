@@ -28,6 +28,21 @@ body {
   background: var(--bg-color);
 }
 
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+}
+
+.progress-bar {
+  height: 2px;
+  width: 0;
+  background: white;
+  transition: all 0.5s ease-out;
+}
+
 header {
   position: fixed;
   top: 0;

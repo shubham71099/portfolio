@@ -1,8 +1,20 @@
 const header = document.querySelector("header");
+const progressBar = document.querySelector(".progress-bar");
 
 window.addEventListener("scroll", function () {
   header.classList.toggle("sticky", window.scrollY > 200);
+  updateProgressBar();
 });
+
+function updateProgressBar() {
+  const scrollPos =
+    document.documentElement.scrollTop || document.body.scrollTop;
+  const windowHeight =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+  const progress = (scrollPos / windowHeight) * 100;
+  progressBar.style.width = `${progress}%`;
+}
 
 let menu = document.querySelector("#menu-icon");
 let navlist = document.querySelector(".navlist");
