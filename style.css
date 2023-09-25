@@ -91,6 +91,12 @@ section {
   padding: 120px 19% 100px;
 }
 
+.email-icon {
+  color: #ed8f8f;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
 .home {
   position: relative;
   min-height: 100vh;
