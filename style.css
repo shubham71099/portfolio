@@ -37,9 +37,9 @@ body {
 }
 
 .progress-bar {
-  height: 2px;
+  height: 3px;
   width: 0;
-  background: #6880a2;
+  background: #355281;
   transition: all 0.5s ease-out;
 }
 
@@ -133,7 +133,7 @@ section {
   border-right: 5px solid;
   white-space: nowrap;
   overflow: hidden;
-  animation: typing 4s steps(12) infinite, cursor 1s infinite;
+  animation: typing 6s steps(12) infinite, cursor 1s infinite;
   animation-fill-mode: forwards;
 }
 
@@ -142,7 +142,7 @@ section {
     border-color: transparent;
   }
   to {
-    border-color: #5091ae;
+    border-color: #5d8fa7;
   }
 }
 
@@ -261,15 +261,6 @@ header.sticky {
   cursor: pointer;
   /* animation: image-spin 1.2s 1; */
 }
-
-/* @keyframes image-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
 
 .about-text h2 {
   font-family: "Dosis", sans-serif;
@@ -638,6 +629,10 @@ form {
 @media (max-width: 870px) {
   #menu-icon {
     display: block;
+  }
+  .progress-bar {
+    height: 3px;
+    background: #7ca1dc;
   }
   .navlist {
     position: absolute;
