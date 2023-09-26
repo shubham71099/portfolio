@@ -119,19 +119,58 @@ section {
 .surname-start {
   margin-left: 10px;
 }
-.hero-text h1 span {
+.hero-text {
+  display: inline-block;
+}
+.hero-text h1 {
   font-family: "Dosis", sans-serif;
   font-size: var(--h1-font);
   color: var(--text-color);
   font-weight: 800;
   margin-bottom: 20px;
   letter-spacing: 2px;
+  width: 100%;
+  border-right: 5px solid;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 4s steps(12) infinite, cursor 1s infinite;
+  animation-fill-mode: forwards;
 }
 
-.hero-text h1 span:hover {
-  color: yellow;
-  cursor: cell;
-  text-decoration: underline;
+@keyframes cursor {
+  from {
+    border-color: transparent;
+  }
+  to {
+    border-color: #5091ae;
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  25% {
+    width: 70%;
+  }
+  48% {
+    width: 100%;
+  }
+  50% {
+    width: 100%;
+  }
+  55% {
+    width: 100%;
+  }
+  75% {
+    width: 70%;
+  }
+  85% {
+    width: 30%;
+  }
+  100% {
+    width: 0;
+  }
 }
 
 .hero-text h4 {
@@ -665,7 +704,7 @@ form {
 
 @media (max-width: 460px) {
   :root {
-    --h1-font: 3.5rem;
+    --h1-font: 3rem;
     --h2-font: 2.5rem;
   }
   .hero-text h4 {
