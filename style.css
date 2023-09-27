@@ -133,7 +133,7 @@ section {
   border-right: 5px solid;
   white-space: nowrap;
   overflow: hidden;
-  animation: typing 6s steps(12) infinite, cursor 1s infinite;
+  animation: typing 7s steps(12) infinite, cursor 1s infinite;
   animation-fill-mode: forwards;
 }
 
@@ -142,7 +142,7 @@ section {
     border-color: transparent;
   }
   to {
-    border-color: #5d8fa7;
+    border-color: #61899c;
   }
 }
 
@@ -257,7 +257,7 @@ header.sticky {
   transition: all 0.5s ease-in-out;
 }
 .about-img img:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
   cursor: pointer;
   /* animation: image-spin 1.2s 1; */
 }
@@ -615,6 +615,9 @@ form {
     text-align: center;
     order: 2;
   }
+  .project-item img {
+    display: none;
+  }
   .service-item {
     grid-template-columns: repeat(auto-fit, minmax(350px, auto));
   }
@@ -633,6 +636,9 @@ form {
   .progress-bar {
     height: 3px;
     background: #7ca1dc;
+  }
+  .project-item img {
+    display: none;
   }
   .navlist {
     position: absolute;
@@ -664,6 +670,7 @@ form {
   .home {
     min-height: 80vh;
   }
+
   :root {
     --h1-font: 3.8rem;
     --h2-font: 2.7rem;
