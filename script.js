@@ -1,6 +1,17 @@
 const header = document.querySelector("header");
 const progressBar = document.querySelector(".progress-bar");
 
+var typing = new Typed(".typing-text", {
+  strings: [
+    " Full stack developer",
+    " Competitive programmer",
+    " Tech enthusiast",
+  ],
+  typeSpeed: 100,
+  backSpeed: 40,
+  loop: true,
+});
+
 window.addEventListener("scroll", function () {
   header.classList.toggle("sticky", window.scrollY > 200);
   updateProgressBar();
