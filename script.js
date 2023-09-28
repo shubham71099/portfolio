@@ -63,6 +63,10 @@ function validateEmail(email) {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   return emailRegex.test(email);
 }
+function validateMobile(mobile) {
+  var mobileRegex = /^\d{10}$/;
+  return mobileRegex.test(mobile);
+}
 
 async function sendEmail() {
   const name = document.getElementById("name").value;
@@ -78,6 +82,10 @@ async function sendEmail() {
   }
   if (!validateEmail(email)) {
     alert("Please enter valid email id");
+    return;
+  }
+  if (!validateMobile(mobile)) {
+    alert("Please enter 10 digit mobile no");
     return;
   }
 
