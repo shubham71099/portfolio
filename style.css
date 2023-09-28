@@ -39,7 +39,7 @@ body {
 .progress-bar {
   height: 3px;
   width: 0;
-  background: white;
+  background: #4bb543;
   transition: all 0.5s ease-out;
 }
 
@@ -149,14 +149,14 @@ section {
 
 .typed-cursor {
   color: rgb(253, 248, 252);
-  margin-top: 1px;
+  margin-top: 4px;
 }
 .typed-cursor.typed-cursor--blink {
   animation: typedjsBlink 1s infinite;
 }
 
 .hero-text h4 {
-  font-size: 20px;
+  font-size: 25px;
   color: var(--second-color);
   font-weight: 600;
 }
@@ -236,12 +236,13 @@ header.sticky {
   width: 350px;
   aspect-ratio: 1;
   border-radius: 50%;
-  transition: all 0.5s ease-in-out;
+  border: 1px solid transparent;
+  transition: all ease 0.5s;
+  box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
 }
 .about-img img:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   cursor: pointer;
-  /* animation: image-spin 1.2s 1; */
 }
 
 .about-text h2 {
@@ -373,9 +374,8 @@ span {
   box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
 }
 .project-box:hover {
-  background: #292931;
-  transform: scale(1.04);
-  box-shadow: 0 0 30px -30px #6b5252;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px -10px #deb5b5;
 }
 
 .project-box img {
@@ -464,12 +464,12 @@ span {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   position: relative;
-  transition: all ease 0.4s;
+  transition: all ease 0.5s;
   cursor: pointer;
 }
 .form:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 30px -10px #c38f8f;
+  box-shadow: 0 0 30px -10px #deb5b5;
 }
 .left-contact {
   display: flex;
@@ -717,7 +717,7 @@ button:hover {
   }
 
   .hero-text h4 {
-    font-size: 16px;
+    font-size: 20px;
   }
   .right-contact input,
   .right-contact textarea {
