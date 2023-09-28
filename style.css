@@ -498,10 +498,13 @@ input {
   color: var(--second-color);
   font-family: "Montserrat", sans-serif;
   transition: all 0.3s;
-  border-bottom: 2px solid #bebed2;
+  border-bottom: 2px solid #35353e;
+}
+input:hover {
+  border-bottom: 2px solid white;
 }
 input:focus {
-  border-bottom: 2px solid #78788c;
+  border-bottom: 2px solid white;
 }
 p:before {
   content: attr(type);
@@ -677,8 +680,8 @@ button:hover {
     font-size: 18px;
   }
   .skills-img img {
-    height: 64px;
-    width: 72px;
+    height: 55px;
+    width: 60px;
   }
 
   form {
