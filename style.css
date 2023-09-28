@@ -363,6 +363,18 @@ span {
   margin-top: 4rem;
 }
 
+/* .project-box {
+  padding: 45px 30px;
+  background: var(--second-bg-color);
+  border-radius: 0.8rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all ease 0.5s;
+} */
+
+/* .project-box img {
+  align-items: center;
+} */
 .project-box {
   padding: 45px 30px;
   background: var(--second-bg-color);
@@ -370,10 +382,19 @@ span {
   border: 1px solid transparent;
   cursor: pointer;
   transition: all ease 0.5s;
+  box-shadow: 0 0 30px -15px #685858;
+}
+.project-box:hover {
+  background: #2f2f38;
+  transform: scale(1.03);
+  box-shadow: 0 0 30px -30px #6b5252;
 }
 
 .project-box img {
-  align-items: center;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .project-text-center {
@@ -453,6 +474,10 @@ span {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   position: relative;
+}
+.form:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 30px -10px #b37f7f;
 }
 .left-contact {
   display: flex;
@@ -615,9 +640,9 @@ button:hover {
     text-align: center;
     order: 2;
   }
-  .project-item img {
+  /* .project-item img {
     display: none;
-  }
+  } */
   .service-item {
     grid-template-columns: repeat(auto-fit, minmax(350px, auto));
   }
@@ -637,9 +662,9 @@ button:hover {
     height: 3px;
     background: #7ca1dc;
   }
-  .project-item img {
+  /* .project-item img {
     display: none;
-  }
+  } */
   .navlist {
     position: absolute;
     top: -800px;
@@ -722,20 +747,20 @@ button:hover {
   .hero-text h1 span {
     font-size: 48px;
   }
-  .project-item img {
+  /* .project-item img {
     display: none;
-  }
+  } */
   .end-section i {
     display: inline;
     align-items: center;
     text-align: center;
   }
-  .project {
+  /* .project {
     background: none;
   }
   .project-box {
     background: var(--second-bg-color);
-  }
+  } */
   .service-item {
     display: grid;
     align-items: center;
@@ -755,12 +780,9 @@ button:hover {
   }
 
   .project-box {
-    padding: 45px 30px;
+    padding: 8px 20px 16px;
     position: relative;
     border-radius: 2rem;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all ease 0.5s;
   }
   .end-section {
     padding: 13px 19% 25px;
