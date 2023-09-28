@@ -3,6 +3,7 @@ const progressBar = document.querySelector(".progress-bar");
 
 var typing = new Typed(".typing-text", {
   strings: [
+    " ",
     " Full stack developer",
     " Competitive programmer",
     " Tech enthusiast",

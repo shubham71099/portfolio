@@ -433,7 +433,7 @@ span {
   transform: translate(-5px);
   border: 1px solid #4e5055;
 }
-
+/* 
 .contact {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
@@ -513,9 +513,105 @@ form {
 .right-contact button:hover {
   background: var(--main-color);
   cursor: pointer;
+} */
+.contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+  align-items: center;
+  gap: 10rem;
+  background: var(--second-bg-color);
 }
+.form {
+  width: 640px;
+  height: 440px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  box-shadow: 0 0 30px -10px #685858;
+  margin: auto;
+  padding: 20px 30px;
+  max-width: calc(100vw - 40px);
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+}
+.left-contact {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 3rem;
+}
+
+.in i {
+  color: var(--main-color);
+  opacity: 0.5;
+  font-size: 70px;
+  margin-bottom: 15px;
+  transition: all ease 0.4s;
+}
+
+.in i:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.in h4 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.contact-h2 {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  width: 180px;
+  color: var(--second-color);
+}
+input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background: none;
+  outline: none;
+  resize: none;
+  border: 0;
+  font-size: 16px;
+  color: var(--second-color);
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.3s;
+  border-bottom: 2px solid #bebed2;
+}
+input:focus {
+  border-bottom: 2px solid #78788c;
+}
+p:before {
+  content: attr(type);
+  display: block;
+  margin: 28px 0 0;
+  font-size: 14px;
+  color: #5a5a5a;
+}
+button {
+  float: right;
+  padding: 8px 12px;
+  margin: 8px 0 0;
+  font-family: "Montserrat", sans-serif;
+  background: #78788c;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border: 2px solid var(--main-color);
+  border-radius: 2rem;
+  transition: all ease 0.5s;
+  cursor: pointer;
+}
+button:hover {
+  transform: scale(1.1);
+  background: transparent;
+  border: 2px solid var(--main-color);
+}
+
 .end-section {
-  padding: 80px 19% 70px;
+  padding: 40px 19% 50px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -689,6 +785,7 @@ form {
     --h1-font: 3rem;
     --h2-font: 2.5rem;
   }
+
   .hero-text h4 {
     font-size: 16px;
   }
@@ -741,6 +838,14 @@ form {
     border: 1px solid transparent;
     cursor: pointer;
     transition: all ease 0.5s;
+  }
+  .end-section {
+    padding: 13px 19% 25px;
+  }
+  .scroll-bttn i {
+    position: fixed;
+    right: 0.7rem;
+    bottom: 0.7rem;
   }
 }
 
