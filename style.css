@@ -72,11 +72,13 @@ header {
   font-size: var(--p-font);
   font-weight: 600;
   margin: 0 40px;
-  transition: all ease 0.4s;
+  background: transparent;
+  padding: 10px 20px;
 }
 
 .navlist a:hover {
-  color: yellow;
+  background: rgba(0, 255, 255, 0.416);
+  border-radius: 20px;
 }
 
 #menu-icon {
@@ -251,11 +253,6 @@ header.sticky {
   font-weight: 800;
   margin-bottom: 10px;
 }
-.about-text h2:hover {
-  color: var(--main-color);
-  cursor: cell;
-  text-decoration: none;
-}
 
 .about-text h5 {
   font-size: 20px;
@@ -329,22 +326,12 @@ span {
   margin-bottom: 10px;
   text-align: center;
 }
-.skills h2:hover {
-  color: var(--main-color);
-  cursor: cell;
-  text-decoration: none;
-}
 
 .text-center h2 {
   font-family: "Dosis", sans-serif;
   font-size: var(--h2-font);
   font-weight: 800;
   margin-bottom: 10px;
-}
-.project-text-center h2:hover {
-  color: rgba(0, 255, 255, 0.416);
-  cursor: cell;
-  text-decoration: none;
 }
 
 .text-center h4 {
@@ -373,8 +360,8 @@ span {
   box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
 }
 .project-box:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px -10px #deb5b5;
+  transform: scale(1.03);
+  box-shadow: 0 0 30px -10px #ecdfdf;
 }
 
 .project-box img {
@@ -468,7 +455,7 @@ span {
 }
 .form:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 30px -10px #deb5b5;
+  box-shadow: 0 0 30px -10px #ecdfdf;
 }
 .left-contact {
   display: flex;
@@ -654,14 +641,17 @@ button:hover {
     display: flex;
     flex-direction: column;
     background: #000;
-    padding: 20px 0;
+    padding: 10px 0;
     text-align: left;
     transition: alld 0.5s ease;
   }
   .navlist a {
     display: block;
-    font-size: 22px;
-    padding: 12px 0;
+    font-size: 20px;
+    margin: 0 30px;
+  }
+  .navlist a:hover {
+    background: transparent;
   }
   .navlist.open {
     top: 100%;
