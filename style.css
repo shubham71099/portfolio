@@ -360,9 +360,10 @@ span {
   box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
 }
 .project-box:hover {
-  transform: scale(1.03);
+  transform: scale(1.06);
   box-shadow: 0 0 30px -10px #ecdfdf;
 }
+
 
 .project-box img {
   max-width: 100%;
@@ -433,9 +434,14 @@ span {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
   align-items: center;
-  gap: 10rem;
+  gap: 7rem;
   background: var(--second-bg-color);
   justify-content: center;
+}
+
+.drawio {
+  height: 400px;
+  aspect-ratio: 1/1;
 }
 
 .form {
@@ -589,14 +595,14 @@ button:hover {
     padding: 14px 4%;
   }
   header.sticky {
-    padding: 8px 4%;
+    padding: 10px 4%;
   }
   section {
     padding: 100px 5% 80px;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1260px) {
   .home {
     min-height: 90vh;
   }
@@ -608,6 +614,8 @@ button:hover {
     --h2-font: 3.1rem;
     --p-font: 1rem;
   }
+  .left-contact {
+    display: none;
 }
 
 @media (max-width: 1060px) {
@@ -688,9 +696,7 @@ button:hover {
   .btn {
     padding: 10px 35px;
   }
-  .left-contact {
-    display: none;
-  }
+
   .in i {
     font-size: 80px;
   }
@@ -712,9 +718,7 @@ button:hover {
   .right-contact textarea {
     width: 80%;
   }
-  .left-contact {
-    display: none;
-  }
+
   .hero-text h1 span {
     font-size: 48px;
   }
@@ -724,12 +728,7 @@ button:hover {
     align-items: center;
     text-align: center;
   }
-  /* .project {
-    background: none;
-  }
-  .project-box {
-    background: var(--second-bg-color);
-  } */
+
   .service-item {
     display: grid;
     align-items: center;
