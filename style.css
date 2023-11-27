@@ -151,7 +151,7 @@ section {
 
 .typed-cursor {
   color: rgb(253, 248, 252);
-  margin-top: 4px;
+  margin-top: 5px;
 }
 .typed-cursor.typed-cursor--blink {
   animation: typedjsBlink 1s infinite;

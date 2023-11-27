@@ -8,8 +8,8 @@ var typing = new Typed(".typing-text", {
     " Competitive programmer",
     " Tech enthusiast",
   ],
-  typeSpeed: 100,
-  backSpeed: 40,
+  typeSpeed: 50,
+  backSpeed: 30,
   loop: true,
 });
 
