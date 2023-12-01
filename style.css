@@ -235,7 +235,7 @@ header.sticky {
 }
 
 .about-img img {
-  width: 350px;
+  width: 300px;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid transparent;
@@ -369,6 +369,7 @@ span {
   height: auto;
   display: block;
   margin: 0 auto;
+  margin-bottom: 13px;
 }
 
 .project-text-center {
@@ -648,20 +649,20 @@ button:hover {
       display: flex;
       flex-direction: column;
       background: #000;
-      padding: 10px 0;
-      text-align: left;
-      transition: alld 0.5s ease;
+      padding: 5px 0;
+      /* text-align: left; */
+      transition: all 0.5s ease-in-out;
     }
     .navlist a {
       display: block;
+      text-align: center;
       font-size: 20px;
-      margin: 0 30px;
     }
     .navlist a:hover {
       background: transparent;
     }
     .navlist.open {
-      top: 100%;
+      top: 95%;
     }
 
     .about-img img {
@@ -671,7 +672,7 @@ button:hover {
 
   @media (max-width: 870px) {
     .home {
-      min-height: 80vh;
+      min-height: 90vh;
     }
 
     :root {
