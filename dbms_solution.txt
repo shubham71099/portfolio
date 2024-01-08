@@ -1,0 +1,112 @@
+//Q.1.
+    
+create table customer (
+    Custid varchar(20) primary key check(Custid like 'C%'),
+    Custname varchar(20),
+    Address varchar(50),
+    Birthdata date );
+
+create table account(
+    Accno int primary key,
+    Custid varchar(20) references customer(Custid),
+    Acctype varchar(20),
+    Acc_balance int );
+
+create table transaction(
+    Transid int primary key,
+    Accno int references account(Accno),
+    Transdate date,
+    Transamount int );
+
+insert into customer values('C1','Shubham','Surat','01-jan-2001');
+insert into customer values('C2','Ruchit','Surat','01-jan-2003');
+insert into customer values('C3','Khushal','Surat','01-jan-2002');
+insert into customer values('C4','Akash','Surat','01-jan-2005');
+insert into customer values('C5','Anand','Surat','01-jan-2001');
+select * from customer;
+
+insert into account values(1001,'C1','saving',500000);
+insert into account values(1002,'C2','current',400000);
+insert into account values(1003,'C3','saving',800000);
+insert into account values(1004,'C4','saving',500000);
+insert into account values(1005,'C5','saving',500000);
+select * from account;
+
+insert into transaction values(10,1001,'08-jan-2023',2500);
+insert into transaction values(11,1003,'08-jan-2023',2000);
+insert into transaction values(12,1002,'08-jan-2023',1000);
+select * from transaction;
+
+//Q.2.
+
+alter table customer add constraint check_id check(Custid like 'C%');
+alter table account add constraint check_bal check(Acc_balance>1000);
+
+
+//Q.3.
+    
+select * from customer where Custname like 'K%';
+
+select c.Custid, c.Custname, a.Accno, a.Acctype, t.Transid, t.Transdate, t.Transamount from customer c join account a on c.Custid = a.Custid join transaction t on a.Accno = t.Accno;
+
+alter table customer add city varchar(20);
+
+//Q.4.
+
+create or replace procedure display_accounts_with_balance
+IS
+begin
+    for account_rec IN (select c.Custid,c.Custname,a.Accno,a.Acctype,a.Acc_balance from customer c join account a on c.Custid = a.Custid 
+    where a.Acc_balance > 40000)
+    loop
+        DBMS_OUTPUT.PUT_LINE('Customer ID: ' || account_rec.Custid);
+        DBMS_OUTPUT.PUT_LINE('Customer Name: ' || account_rec.Custname);
+        DBMS_OUTPUT.PUT_LINE('Account Number: ' || account_rec.Accno);
+        DBMS_OUTPUT.PUT_LINE('Account Type: ' || account_rec.Acctype);
+        DBMS_OUTPUT.PUT_LINE('Account Balance: ' || account_rec.Acc_balance);
+        DBMS_OUTPUT.PUT_LINE('------------------------');
+    end loop;
+
+    exception
+        when NO_DATA_FOUND then
+            DBMS_OUTPUT.PUT_LINE('No accounts found with balance > 40000.');
+end display_accounts_with_balance;
+/
+
+execute display_accounts_with_balance;
+
+//Q.5.
+
+create or replace function calculate_total_balance
+return number
+IS
+    total_balance NUMBER := 0;
+begin
+    for account_rec IN (select Acc_balance
+                         from account
+                         where Acctype = 'saving')
+    loop
+        total_balance := total_balance + account_rec.Acc_balance;
+    end loop;
+
+    return total_balance;
+end calculate_total_balance;
+/
+
+declare
+begin
+dbms_output.put_line('Total Balance : '||calculate_total_balance());
+end;
+
+//Q.5.
+
+create or replace trigger prevent_nagpur_customer
+before insert on customer
+for each row
+declare
+begin
+    if :NEW.city like '%Nagpur%' then
+        RAISE_APPLICATION_ERROR(-20001, 'Cannot insert customers from Nagpur.');
+    end if;
+end prevent_nagpur_customer;
+/
