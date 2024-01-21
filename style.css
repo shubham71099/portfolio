@@ -240,10 +240,10 @@ header.sticky {
   border-radius: 50%;
   border: 1px solid transparent;
   transition: all ease 0.5s;
-  box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
+  box-shadow: 0 0 25px -10px #ecdfdf;
 }
 .about-img img:hover {
-  transform: scale(1.02);
+  /* transform: scale(1.02); */
   cursor: pointer;
 }
 
