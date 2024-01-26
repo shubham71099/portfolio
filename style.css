@@ -238,9 +238,9 @@ header.sticky {
   width: 300px;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid transparent;
+  border: transparent;
   transition: all ease 0.5s;
-  box-shadow: 0 0 25px -10px #ecdfdf;
+  box-shadow: 0 0 25px -12px #ecdfdf;
 }
 .about-img img:hover {
   /* transform: scale(1.02); */
@@ -352,16 +352,17 @@ span {
 }
 
 .project-box {
-  padding: 45px 30px;
+  padding: 30px 20px;
+  margin: 5px;
   background: var(--second-bg-color);
   border-radius: 0.8rem;
   border: 1px solid transparent;
-  transition: all ease 0.5s;
+  transition: all ease 0.3s;
   box-shadow: 0 0 30px -15px rgba(0, 255, 255, 0.416);
 }
 .project-box:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 30px -10px #ecdfdf;
+  box-shadow: 0 0 30px -10px #ddc5c5;
 }
 
 .project-box img {
