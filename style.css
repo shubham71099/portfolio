@@ -130,10 +130,24 @@ section {
   color: var(--text-color);
   font-weight: 800;
 }
+
+@keyframes anime {
+  100% {
+    /* text-shadow: 0 0 60px rgba(41, 106, 197, 0.457); */
+    color: var(--text-color);
+  }
+}
+
 .hero-text h1 span {
   font-family: "Dosis", sans-serif;
   font-size: var(--h1-font);
-  color: var(--text-color);
+  /* color: var(--text-color); */
+  background: linear-gradient(to right, rgb(126, 151, 158), rgb(150, 167, 143));
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 60px rgba(229, 232, 220, 0.457);
+  animation: anime 2s infinite alternate;
 }
 .hero-text h1 span:hover {
   color: yellow;
