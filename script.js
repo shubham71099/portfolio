@@ -105,7 +105,7 @@ async function sendEmail() {
     submitBtn.innerHTML = "Sending";
     submitBtn.classList.add("loading");
 
-    const res = await axios.post(endpoint, body, {
+    await axios.post(endpoint, body, {
       headers: {
         "Content-Type": "application/json",
         accept: "application/json",
@@ -122,3 +122,30 @@ async function sendEmail() {
     alert("Something went wrong.");
   }
 }
+
+async function getAndShowVisitors() {
+  try {
+    const visitorsCountAPIEndpoint =
+      "https://visitors-count-api.onrender.com/visitCount";
+    const res = await axios.post(
+      visitorsCountAPIEndpoint,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      }
+    );
+    const visitorsCount = res.data.visitCount;
+    if (res.data.success) {
+      const visitorsCountDiv = document.querySelector(".visitors-display");
+      visitorsCountDiv.innerHTML = `Total Portfolio views : <b> ${visitorsCount}<b>`;
+      visitorsCountDiv.style.display = "block";
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getAndShowVisitors();
