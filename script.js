@@ -1,6 +1,33 @@
 const header = document.querySelector("header");
 const progressBar = document.querySelector(".progress-bar");
 
+async function getAndShowVisitors() {
+  try {
+    const visitorsCountAPIEndpoint =
+      "https://visitors-count-api.onrender.com/visitCount";
+    const res = await axios.post(
+      visitorsCountAPIEndpoint,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      }
+    );
+    const visitorsCount = res.data.visitCount;
+    if (res.data.success) {
+      const visitorsCountDiv = document.querySelector(".visitors-display");
+      visitorsCountDiv.innerHTML = `Total Portfolio views : <b> ${visitorsCount}<b>`;
+      visitorsCountDiv.style.display = "block";
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getAndShowVisitors();
+
 var typing = new Typed(".typing-text", {
   strings: [
     "  ",
@@ -131,30 +158,3 @@ function lowerCase() {
   const x = document.getElementById("email");
   x.value = x.value.toLowerCase();
 }
-
-async function getAndShowVisitors() {
-  try {
-    const visitorsCountAPIEndpoint =
-      "https://visitors-count-api.onrender.com/visitCount";
-    const res = await axios.post(
-      visitorsCountAPIEndpoint,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json",
-        },
-      }
-    );
-    const visitorsCount = res.data.visitCount;
-    if (res.data.success) {
-      const visitorsCountDiv = document.querySelector(".visitors-display");
-      visitorsCountDiv.innerHTML = `Total Portfolio views : <b> ${visitorsCount}<b>`;
-      visitorsCountDiv.style.display = "block";
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-getAndShowVisitors();
