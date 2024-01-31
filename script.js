@@ -157,4 +157,4 @@ async function getAndShowVisitors() {
   }
 }
 
-//getAndShowVisitors();
+getAndShowVisitors();

@@ -254,7 +254,7 @@ header.sticky {
   border-radius: 50%;
   border: transparent;
   transition: all ease 0.5s;
-  box-shadow: 0 0 25px -12px #ecdfdf;
+  box-shadow: 0 0 22px -12px #ecdfdf;
 }
 .about-img img:hover {
   /* transform: scale(1.02); */
