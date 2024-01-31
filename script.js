@@ -123,6 +123,15 @@ async function sendEmail() {
   }
 }
 
+function upperCase() {
+  const x = document.getElementById("name");
+  x.value = x.value.toUpperCase();
+}
+function lowerCase() {
+  const x = document.getElementById("email");
+  x.value = x.value.toLowerCase();
+}
+
 async function getAndShowVisitors() {
   try {
     const visitorsCountAPIEndpoint =
@@ -148,4 +157,4 @@ async function getAndShowVisitors() {
   }
 }
 
-getAndShowVisitors();
+//getAndShowVisitors();

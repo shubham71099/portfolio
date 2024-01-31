@@ -258,8 +258,8 @@
 
         <form class="form" id="contact-form">
             <h2 class="contact-h2">Get in Touch</h2>
-            <input type="text" name="name" placeholder="Name" autocomplete="off" id="name" required></input></p>
-            <input type="text" name="email" placeholder="Email" autocomplete="off" id="email" required></input></p>
+            <input type="text" name="name" placeholder="Name" autocomplete="off" id="name" oninput="upperCase()" required></input></p>
+            <input type="text" name="email" placeholder="Email" autocomplete="off" id="email" oninput="lowerCase()" required></input></p>
             <input type="text" name="mobile" placeholder="Mobile" autocomplete="off" id="mobile" required></input></p>
             <input type="text" name="message" placeholder="Enter your message" autocomplete="off" id="message" required></input></p>
             <button type="button"
