@@ -103,42 +103,20 @@ async function sendEmail() {
   const contactForm = document.getElementById("contact-form");
   const submitBtn = document.getElementById("submit-btn");
 
-  if(!email){
-    return
-  }
-  else{
-    if (!validateEmail(email)) {
-        alert("Please enter valid email id");
-        return;
-      }
-  }
-  if(!mobile){
-    return
-  }
-  else{
-    if (!validateMobile(mobile)) {
-      alert("Please enter 10 digit mobile no");
-      return;
-    }
-  }
-  if(!message){
+  if (!name || !email || !mobile || !message) {
+    alert("Please enter all details");
     return;
   }
 
-  // if (!name || !email || !mobile || !message) {
-  //   alert("Please enter all details");
-  //   return;
-  // }
+  if (!validateEmail(email)) {
+    alert("Please enter valid email id");
+    return;
+  }
 
-  // if (!validateEmail(email)) {
-  //   alert("Please enter valid email id");
-  //   return;
-  // }
-
-  // if (!validateMobile(mobile)) {
-  //   alert("Please enter 10 digit mobile no");
-  //   return;
-  // }
+  if (!validateMobile(mobile)) {
+    alert("Please enter 10 digit mobile no");
+    return;
+  }
 
   const endpoint =
     "https://adventurous-sunglasses-frog.cyclic.app/api/email/send";
