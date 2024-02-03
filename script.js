@@ -1,6 +1,7 @@
 const header = document.querySelector("header");
 const progressBar = document.querySelector(".progress-bar");
 
+
 async function getAndShowVisitors() {
   try {
     const visitorsCountAPIEndpoint =
@@ -160,3 +161,19 @@ function lowerCase() {
   const x = document.getElementById("email");
   x.value = x.value.toLowerCase();
 }
+
+function loaderAnimation(){
+  var header = document.getElementById("top-header");
+  var progressBarHide = document.querySelector(".progress-container");
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    var loader = document.getElementById("loader");
+    setTimeout(function(){
+      loader.style.top = "-100%";
+      header.style.display= "flex";
+      progressBarHide.style.display= "block";
+    }, 2000);
+  });
+}
+
+loaderAnimation()
