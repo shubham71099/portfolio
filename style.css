@@ -257,6 +257,7 @@ header.sticky {
   transition: all ease 0.5s;
   box-shadow: 0 0 22px -12px #ecdfdf;
 }
+
 .about-img img:hover {
   /* transform: scale(1.02); */
   cursor: pointer;
@@ -812,7 +813,7 @@ button:hover {
 }
 
 #loader h1{
-  font-size: 4vw;
+  font-size: 5vw;
   color: transparent;
   background: linear-gradient(to right,rgb(63, 219, 183),rgb(32, 95, 183));
   -webkit-background-clip: text;
@@ -849,6 +850,6 @@ opacity: 0;
 
 @media (max-width:600px){
   #loader h1{
-    font-size: 12vw;
+    font-size: 16vw;
   }
 }
