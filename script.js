@@ -5,7 +5,7 @@ const progressBar = document.querySelector(".progress-bar");
 async function getAndShowVisitors() {
   try {
     const visitorsCountAPIEndpoint =
-      "https://visitors-count-api.onrender.com/visitCount";
+      "https://adventurous-sunglasses-frog.cyclic.app/api/visitCount";
     const res = await axios.post(
       visitorsCountAPIEndpoint,
       {},
