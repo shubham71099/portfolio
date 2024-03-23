@@ -19,7 +19,7 @@ async function getAndShowVisitors() {
     const visitorsCount = res.data.visitCount;
     if (res.data.success) {
       const visitorsCountDiv = document.querySelector(".visitors-display");
-      visitorsCountDiv.innerHTML = `Total Portfolio views : <b> ${visitorsCount}<b>`;
+      visitorsCountDiv.innerHTML = `Total Visitors : <b> ${visitorsCount}<b>`;
       visitorsCountDiv.style.display = "block";
     }
   } catch (error) {
