@@ -149,6 +149,7 @@ async function sendEmail() {
   } catch (error) {
     submitBtn.classList.remove("loading");
     submitBtn.innerHTML = "Send";
+    contactForm.reset();
     alert("Email sent successfully!  I will contact you shortly !!");
   }
 }
