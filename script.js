@@ -190,3 +190,12 @@ async function captureUserAnalytic(){
 }
 
 captureUserAnalytic()
+
+
+var home = document.querySelector('.home');
+var crsr = document.querySelector('.cursor');
+
+home.addEventListener("mousemove",function(dets) {
+  crsr.style.left = dets.x+"px";
+  crsr.style.top = dets.y+"px";
+})

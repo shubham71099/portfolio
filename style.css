@@ -607,6 +607,22 @@ button:hover {
   border-radius: 0.8rem;
 }
 
+
+.cursor{
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  mix-blend-mode: difference;
+  border-radius: 50%;
+  position: absolute;
+  transition: all linear 0.2s;
+  opacity: 0.7;
+}
+
+
+
+
+
 @media (max-width: 1600px) {
   header {
     padding: 14px 4%;
@@ -639,6 +655,9 @@ button:hover {
 @media (max-width: 1060px) {
     .about {
       grid-template-columns: 1fr;
+    }
+    .cursor{
+      display: none;
     }
     .about-img {
       text-align: center;
