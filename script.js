@@ -145,12 +145,12 @@ async function sendEmail() {
     submitBtn.classList.remove("loading");
     submitBtn.innerHTML = "Send";
     contactForm.reset();
-    alert("Email sent successfully!  I will contact you shortly.");
+    alert("Message sent successfully !  I will contact you shortly.");
   } catch (error) {
     submitBtn.classList.remove("loading");
     submitBtn.innerHTML = "Send";
     contactForm.reset();
-    alert("Email sent successfully!  I will contact you shortly !!");
+    alert("Something went wrong !!");
   }
 }
 
