@@ -120,7 +120,7 @@ async function sendEmail() {
   }
 
   const endpoint =
-    "https://adventurous-sunglasses-frog.cyclic.app/api/email/send";
+    "https://email-p1piz6qm.b4a.run/api/email/send";
 
   const emailMessage = `<b>Name:</b> ${name}<br/><b>Email:</b> ${email}<br/><b>Mobile:</b> ${mobile}<br/><b>Message:</b> ${message}`;
 
