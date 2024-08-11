@@ -5,7 +5,7 @@ const progressBar = document.querySelector(".progress-bar");
 async function getAndShowVisitors() {
   try {
     const visitorsCountAPIEndpoint =
-      "https://adventurous-sunglasses-frog.cyclic.app/api/visitCount";
+      "https://email-p1piz6qm.b4a.run/api/visitCount";
     const res = await axios.post(
       visitorsCountAPIEndpoint,
       {},
@@ -179,17 +179,17 @@ function loaderAnimation(){
 
 loaderAnimation()
 
-async function captureUserAnalytic(){
-  try{
-    await window.sankhyaSDKv1.captureUserEvent("6df2fb85-0a6d-4df1-9753-824f450e5dee");
-  }
-  catch(error)
-  {
+// async function captureUserAnalytic(){
+//   try{
+//     await window.sankhyaSDKv1.captureUserEvent("6df2fb85-0a6d-4df1-9753-824f450e5dee");
+//   }
+//   catch(error)
+//   {
     
-  }
-}
+//   }
+// }
 
-captureUserAnalytic()
+// captureUserAnalytic()
 
 
 var home = document.querySelector('.home');
