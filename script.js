@@ -145,7 +145,7 @@ async function sendEmail() {
     submitBtn.classList.remove("loading");
     submitBtn.innerHTML = "Send";
     contactForm.reset();
-    alert("Message sent successfully !  I will contact you shortly.");
+    alert("Message sent successfully ! I will contact you shortly.");
   } catch (error) {
     submitBtn.classList.remove("loading");
     submitBtn.innerHTML = "Send";
@@ -179,17 +179,17 @@ function loaderAnimation(){
 
 loaderAnimation()
 
-// async function captureUserAnalytic(){
-//   try{
-//     await window.sankhyaSDKv1.captureUserEvent("6df2fb85-0a6d-4df1-9753-824f450e5dee");
-//   }
-//   catch(error)
-//   {
+async function captureUserAnalytic(){
+  try{
+    await window.sankhyaSDKv1.captureUserEvent("6df2fb85-0a6d-4df1-9753-824f450e5dee");
+  }
+  catch(error)
+  {
     
-//   }
-// }
+  }
+}
 
-// captureUserAnalytic()
+captureUserAnalytic()
 
 
 var home = document.querySelector('.home');
