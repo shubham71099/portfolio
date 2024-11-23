@@ -179,19 +179,6 @@ function loaderAnimation(){
 
 loaderAnimation()
 
-async function captureUserAnalytic(){
-  try{
-    await window.sankhyaSDKv1.captureUserEvent("6df2fb85-0a6d-4df1-9753-824f450e5dee");
-  }
-  catch(error)
-  {
-    
-  }
-}
-
-captureUserAnalytic()
-
-
 var home = document.querySelector('.home');
 var crsr = document.querySelector('.cursor');
 
