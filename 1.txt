@@ -1,738 +1,257 @@
-===============================DBHelper.kt==========================================
+=====================Temperature(DS18B20)===================
+#include <ESP8266WiFi.h>
+#include <ThingSpeak.h>
 
-package com.example.sqlitecrud
-import android.content.ContentValues
-import android.content.Context
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
+#include <DallasTemperature.h>
+#include <OneWire.h>
 
-class DBHelper(context: Context): SQLiteOpenHelper(context,DBNAME,null,DB_VERSION) {
-    companion object {
-        private const val DBNAME = "studentdb"
-        private const val DB_VERSION = 1
-        private const val TABLE = "student"
-        const val NAME = "name"
-        const val EMAIL = "email"
-        const val PASSWORD = "password"
-        const val COURSE = "course"
-    }
+#define ONE_WIRE_BUS 16 // pin for Arduino*********
+#define ONE_WIRE_BUS D0 // pin for nodeMCU*********
+#define LED_PIN D1      // Pin for LED*************
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        val query = """
-            CREATE TABLE $TABLE (
-                $NAME TEXT,
-                $EMAIL TEXT,
-                $PASSWORD TEXT,
-                $COURSE TEXT
-            )
-        """
-        db?.execSQL(query)
-    }
+const char* ssid = "Wokwi-GUEST"; // WiFi SSID
+const char* password = "";        // WiFi Password
+unsigned long myChannelNo = 2762404; // ThingSpeak Channel Number
+const char* myWriteAPIkey = "MY_API_KEY"; // ThingSpeak Write API Key
 
-    override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS $TABLE")
-        onCreate(db)
-    }
+const float temperatureThreshold = 30.0; // Set threshold in °C
 
-    fun addData(name:String,email:String,password:String,course:String) {
-        val values = ContentValues()
-        values.put(NAME,name)
-        values.put(EMAIL,email)
-        values.put(PASSWORD,password)
-        values.put(COURSE,course)
-        val db = this.writableDatabase
-        db.insert(TABLE,null,values)
-        db.close()
-    }
+WiFiClient client; 
+OneWire oneWire(ONE_WIRE_BUS); 
+DallasTemperature sensors(&oneWire);
 
-    fun getData(): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery("SELECT * FROM $TABLE",null)
-    }
+//LED(short leg) → 220Ω resistor → GND*******************************************
+//connect power to data with resistor D0<-->3V3 through resistor*****************
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+  sensors.begin();
+  
+  // Connecting to WiFi
+  Serial.print("Connecting to WiFi");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected to WiFi");
+  Serial.print("Connected to network: ");
+  Serial.println(WiFi.SSID());
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  ThingSpeak.begin(client);
+}
 
-    fun deleteByName(name:String): Int {
-        val db = this.writableDatabase
-        val result = db.delete(TABLE, "$NAME = ?", arrayOf(name))
-        db.close()
-        return result
-    }
+void loop() {
+  Serial.print("Requesting temperature... ");
+  sensors.requestTemperatures();
+  float temperatureC = sensors.getTempCByIndex(0);
+  Serial.print("Temperature: ");
+  Serial.println(temperatureC);
+  if (temperatureC > temperatureThreshold) {
+    digitalWrite(LED_PIN, HIGH); // Turn on LED
+    Serial.println("Temperature above threshold! LED ON.");
+  } else {
+    digitalWrite(LED_PIN, LOW); // Turn off LED
+    Serial.println("Temperature below threshold. LED OFF.");
+  }
 
-    fun updateByName(name: String, email: String, password: String, course: String): Int {
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(EMAIL, email)
-        values.put(PASSWORD, password)
-        values.put(COURSE, course)
-        val result = db.update(TABLE, values, "$NAME = ?", arrayOf(name))
-        db.close()
-        return result
-    }
+  int statusCode = ThingSpeak.writeField(myChannelNo, 1, temperatureC, myWriteAPIkey);
+  if (statusCode == 200) {
+    Serial.println("Successfully updated ThingSpeak");
+  } else {
+    Serial.print("Problem updating channel. HTTP error code: ");
+    Serial.println(statusCode);
+  }
+  delay(2000);
+}
 
-    fun login(email: String, password: String): Boolean{
-        val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE WHERE $EMAIL = ? AND $PASSWORD = ?"
-        val cursor = db.rawQuery(query, arrayOf(email,password))
-        val result = cursor.count > 0
-        cursor.close()
-        db.close()
-        return result
-    }
+=====================UltraSonic===================
+#include <ESP8266WiFi.h>
+#include <ThingSpeak.h>
 
+#define TRIG_PIN D6  // Trigger Pin
+#define ECHO_PIN D5  // Echo Pin
+#define LED_PIN D4   // LED Pin
+#define BUZZER_PIN D3 // Buzzer Pin
+
+const char* ssid = "Wokwi-GUEST";  // WiFi SSID
+const char* password = "";         // WiFi Password
+unsigned long myChannelNo = 2762405; // ThingSpeak Channel Number
+const char* myWriteAPIkey = "YOUR_API_KEY"; // Replace with your ThingSpeak Write API Key
+
+WiFiClient client;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+  digitalWrite(BUZZER_PIN, LOW);
+
+  Serial.print("Connecting to WiFi");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected");
+  Serial.print("Connected to network: ");
+  Serial.println(WiFi.SSID());
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  ThingSpeak.begin(client);
+}
+
+void loop() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  long duration = pulseIn(ECHO_PIN, HIGH); // Measure pulse duration
+  float distance = (duration * 0.034) / 2; // Calculate distance in cm
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  if (distance > 0 && distance <= 20) {
+    digitalWrite(LED_PIN, HIGH);
+    Serial.println("Obstacle detected! LED ON.");
+    digitalWrite(BUZZER_PIN, HIGH);
+  } else {
+    digitalWrite(LED_PIN, LOW);
+    Serial.println("No obstacle. LED OFF.");
+    digitalWrite(BUZZER_PIN, LOW);
+  }
+
+  int statusCode = ThingSpeak.writeField(myChannelNo, 1, distance, myWriteAPIkey);
+  if (statusCode == 200) {
+    Serial.println("Successfully updated ThingSpeak");
+  } else {
+    Serial.print("Failed to update ThingSpeak. HTTP error code: ");
+    Serial.println(statusCode);
+  }
+
+  delay(2000);
 }
 
 
-===============================activity_main.xml==========================================
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:gravity="center">
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Student"
-        android:textSize="30dp"
-        android:layout_marginBottom="30dp"/>
+=====================PulseSensor===================
+#define PULSE_PIN A0  // Pulse Sensor Pin
+#define LED_PIN 13    // LED Pin (Built-in on most Arduino boards)
 
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your name"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+int threshold = 520;  // Threshold for detecting a heartbeat
+int BPM = 0;          // Beats per minute
+unsigned long lastBeatTime = 0; // Last detected beat time
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your email"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+void setup() {
+  Serial.begin(9600);
+  pinMode(PULSE_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+}
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
-    
-    <RadioGroup
-        android:id="@+id/genderRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+void loop() {
+  int signal = analogRead(PULSE_PIN);           // Read pulse sensor value
+  unsigned long currentTime = millis();        // Get current time
 
-        <RadioButton
-            android:id="@+id/maleRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male" />
+  if (signal > threshold && (currentTime - lastBeatTime) > 250) { // Detect a beat
+    lastBeatTime = currentTime;                // Update last beat time
+    BPM = 60000 / (currentTime - lastBeatTime); // Calculate BPM
+    Serial.print("BPM: ");
+    Serial.println(BPM);
 
-        <RadioButton
-            android:id="@+id/femaleRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Female" />
-
-    </RadioGroup>
-
-    <Spinner
-        android:id="@+id/courseSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/insertBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Insert"
-            android:layout_margin="4dp"/>
-        <Button
-            android:id="@+id/updateBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:layout_margin="4dp"/>
-        <Button
-            android:id="@+id/deleteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:layout_margin="4dp"/>
-        <Button
-            android:id="@+id/viewBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View"
-            android:layout_margin="4dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
-
-===============================MainActivity.kt==========================================
-package com.example.sqlitecrud
-
-import android.content.Intent
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
-class MainActivity : AppCompatActivity() {
-
-    lateinit var txtName: EditText
-    lateinit var txtEmail: EditText
-    lateinit var txtPassword: EditText
-    lateinit var courseSpinner: Spinner
-    lateinit var insertBtn: Button
-    lateinit var viewBtn: Button
-    lateinit var deleteBtn: Button
-    lateinit var updateBtn: Button
-    lateinit var genderRadioGroup: RadioGroup
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-
-        txtName = findViewById(R.id.nameEditText)
-        txtEmail = findViewById(R.id.emailEditText)
-        txtPassword = findViewById(R.id.passwordEditText)
-        courseSpinner = findViewById(R.id.courseSpinner)
-        insertBtn = findViewById(R.id.insertBtn)
-        viewBtn = findViewById(R.id.viewBtn)
-        deleteBtn = findViewById(R.id.deleteBtn)
-        updateBtn = findViewById(R.id.updateBtn)
-        genderRadioGroup = findViewById(R.id.genderRadioGroup)
-
-        val courseList = arrayOf("MCA","BCA","B.COM")
-        val arrayAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,courseList)
-        courseSpinner.adapter = arrayAdapter
-
-        val db = DBHelper(this)
-
-        insertBtn.setOnClickListener {
-            val name = txtName.text.toString()
-            val email = txtEmail.text.toString()
-            val password = txtPassword.text.toString()
-            val course = courseSpinner.selectedItem.toString()
-
-            val gender = when(genderRadioGroup.checkedRadioButtonId) {
-                R.id.maleRadioButton -> "Male"
-                R.id.femaleRadioButton -> "Female"
-
-                else -> ""
-            }
-
-            if(name.isEmpty() || email.isEmpty() || password.isEmpty() || gender.isEmpty()) {
-                Toast.makeText(this,"Please fill all details",Toast.LENGTH_LONG).show()
-            } else {
-                db.addData(name,email,password,course)
-                Toast.makeText(this, gender,Toast.LENGTH_SHORT).show()
-                Toast.makeText(this,"$name added to database",Toast.LENGTH_LONG).show()
-                txtName.text.clear()
-                txtEmail.text.clear()
-                txtPassword.text.clear()
-                val intent = Intent(this,DisplayActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-        updateBtn.setOnClickListener {
-            val name = txtName.text.toString()
-            val email = txtEmail.text.toString()
-            val password = txtPassword.text.toString()
-            val course = courseSpinner.selectedItem.toString()
-
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill all details to update", Toast.LENGTH_LONG).show()
-            } else {
-                val result = db.updateByName(name, email, password, course)
-                if (result > 0) {
-                    Toast.makeText(this, "$name's record updated successfully", Toast.LENGTH_LONG).show()
-                    txtName.text.clear()
-                    txtEmail.text.clear()
-                    txtPassword.text.clear()
-                } else {
-                    Toast.makeText(this, "No record found with name $name", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        deleteBtn.setOnClickListener {
-            val name = txtName.text.toString()
-            if (name.isEmpty()) {
-                Toast.makeText(this, "Please enter the name to delete", Toast.LENGTH_LONG).show()
-            } else {
-                val result = db.deleteByName(name)
-                if (result > 0) {
-                    Toast.makeText(this, "$name deleted from database", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "No record found with name $name", Toast.LENGTH_LONG).show()
-                }
-                txtName.text.clear()
-            }
-        }
-
-        viewBtn.setOnClickListener {
-            val intent = Intent(this,DisplayActivity::class.java)
-            startActivity(intent)
-        }
-
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.option_menu,menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.Home -> {
-                Toast.makeText(this,"Home",Toast.LENGTH_SHORT).show()
-            }
-            R.id.View -> {
-                val intent = Intent(this,DisplayActivity::class.java)
-                startActivity(intent)
-                Toast.makeText(this, "View", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
+    digitalWrite(LED_PIN, BPM > 100 ? HIGH : LOW); // Turn LED ON/OFF based on BPM
+  }
 }
 
 
-===============================activity_display.xml==========================================
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DisplayActivity">
+=====================GasSensor===================
+#define GAS_SENSOR_PIN A0 // Analog pin for Gas Sensor
+#define LED_PIN 13        // LED pin (built-in on most Arduino boards)
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Student Record"
-        android:textSize="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="150dp" />
+int smokeThreshold = 350;
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="15dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/textView1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtEmail"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/txtEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="15dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/textView1"
-        app:layout_constraintStart_toEndOf="@id/txtName"
-        app:layout_constraintEnd_toStartOf="@+id/txtCourse"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/txtCourse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Course"
-        android:textSize="15dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/textView1"
-        app:layout_constraintStart_toEndOf="@id/txtEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" />
-
-    <Button
-        android:id="@+id/btnHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-
-===============================DisplayActivity.kt==========================================
-package com.example.sqlitecrud
-
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
-class DisplayActivity : AppCompatActivity() {
-
-    lateinit var btnHome: Button
-    lateinit var txtName: TextView
-    lateinit var txtEmail: TextView
-    lateinit var txtCourse: TextView
-
-    @SuppressLint("Range")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_display)
-
-        btnHome = findViewById(R.id.btnHome)
-        txtName = findViewById(R.id.txtName)
-        txtEmail = findViewById(R.id.txtEmail)
-        txtCourse = findViewById(R.id.txtCourse)
-
-        val db = DBHelper(this)
-        val cursor = db.getData()
-
-        txtName.append("\n")
-        txtEmail.append("\n")
-        txtCourse.append("\n")
-
-        if(cursor != null && cursor.moveToFirst()) {
-            do {
-                txtName.append("\n\n" + cursor.getString(cursor.getColumnIndex(DBHelper.NAME)) )
-                txtEmail.append("\n\n" + cursor.getString(cursor.getColumnIndex(DBHelper.EMAIL)) )
-                txtCourse.append("\n\n" + cursor.getString(cursor.getColumnIndex(DBHelper.COURSE)) )
-            } while (cursor.moveToNext())
-        } else {
-            Toast.makeText(this,"No Data Found",Toast.LENGTH_LONG).show()
-        }
-
-        btnHome.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.option_menu,menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.Home -> {
-                val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
-                Toast.makeText(this,"Home",Toast.LENGTH_SHORT).show()
-            }
-            R.id.View -> {
-                Toast.makeText(this, "View", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
+void setup() {
+  Serial.begin(9600);      // Start Serial communication
+  pinMode(GAS_SENSOR_PIN, INPUT); // Set Gas Sensor pin as input
+  pinMode(LED_PIN, OUTPUT);       // Set LED pin as output
+  digitalWrite(LED_PIN, LOW);     // Ensure LED is off initially
 }
 
+void loop() {
+  int smokeValue = analogRead(GAS_SENSOR_PIN); // Read gas sensor value
+  Serial.print("Smoke Value: ");
+  Serial.println(smokeValue);                 // Print smoke value to Serial Monitor
 
-===============================LoginActivity.kt==========================================
-package com.example.sqlitecrud
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+  if (smokeValue > smokeThreshold) {
+    digitalWrite(LED_PIN, HIGH);              // Turn LED ON if smoke value exceeds threshold
+    Serial.println("Warning: High Smoke Level! LED ON");
+  } else {
+    digitalWrite(LED_PIN, LOW);               // Turn LED OFF if smoke value is below threshold
+    Serial.println("Smoke Level Normal. LED OFF");
+  }
 
-class LoginActivity : AppCompatActivity() {
-    lateinit var loginPageBtn: Button
-    lateinit var txtLoginEmail: EditText
-    lateinit var txtLoginPassword: EditText
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
-
-        loginPageBtn = findViewById(R.id.loginPageBtn)
-        txtLoginEmail = findViewById(R.id.txtLoginEmail)
-        txtLoginPassword = findViewById(R.id.txtLoginPassword)
-
-        val db = DBHelper(this)
-
-        loginPageBtn.setOnClickListener {
-            val email = txtLoginEmail.text.toString()
-            val password = txtLoginPassword.text.toString()
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
-            } else {
-                val loggedIn = db.login(email,password)
-                if(loggedIn) {
-                    val intent = Intent(this,HomeActivity::class.java)
-                    intent.putExtra("email",email)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-    }
+  delay(500); // Short delay for stable readings
 }
 
+=======================PhotoResister=====================
+//1st -> power
+//2nd -> A0->2nd && GND->RESISTER->2nd
 
+#define LDR_PIN A0   // LDR connected to analog pin A0
+#define LED_PIN 13   // LED connected to digital pin 13 (built-in)
 
-===============================option_menu.xml==========================================
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+int lightThreshold = 500; // Adjust this value based on your environment
 
-    <item
-        android:title="Home"
-        android:id="@+id/Home" />
-
-    <item
-        android:title="View All"
-        android:id="@+id/View" />
-
-</menu>
-
-
-===============================Animation==========================================
-
-//drawable/animation-list.xml
-
-<?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
-    <item android:drawable="@drawable/f1" android:duration="170" />
-    <item android:drawable="@drawable/f2" android:duration="170" />
-    <item android:drawable="@drawable/f3" android:duration="170" />
-    <item android:drawable="@drawable/f4" android:duration="170" />
-    <item android:drawable="@drawable/f5" android:duration="170" />
-    <item android:drawable="@drawable/f6" android:duration="170" />
-    <item android:drawable="@drawable/f7" android:duration="170" />
-    <item android:drawable="@drawable/f8" android:duration="170" />
-</animation-list>
-
-//AnimationActivity.kt
-
-package com.example.exampractice
-import android.graphics.drawable.AnimationDrawable
-import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-
-class AnimationActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_animation)
-        val img: ImageView = findViewById<View>(R.id.imageview1) as ImageView
-        img.setBackgroundResource(R.drawable.animation_list)
-
-        val frameAnimation: AnimationDrawable= img.background as AnimationDrawable
-        frameAnimation.start()
-    }
+void setup() {
+  Serial.begin(9600);      // Initialize Serial Monitor
+  pinMode(LDR_PIN, INPUT); // Set LDR pin as input
+  pinMode(LED_PIN, OUTPUT); // Set LED pin as output
+  digitalWrite(LED_PIN, LOW);
 }
 
-==================================================================================
-===============================ROOMDB==========================================
-==================================================================================
+void loop() {
+  int lightValue = analogRead(LDR_PIN); // Read the value from the LDR
+  Serial.print("Light Intensity: ");
+  Serial.println(lightValue);
 
-
-===============================Student.kt==========================================
-package com.example.exampracticefinal
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "student_table")
-data class Student(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    @ColumnInfo(name = "first_name") val firstname: String,
-    @ColumnInfo(name = "last_name") val lastName: String,
-    @ColumnInfo(name = "roll_no") val rollNo: Int
-)
-
-===============================StudentDao.kt==========================================
-package com.example.exampracticefinal
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-
-@Dao
-interface StudentDao {
-
-    @Query("SELECT * FROM student_table")
-    fun getAll(): List<Student>
-
-    @Query("SELECT * FROM student_table WHERE roll_no = :roll LIMIT 1")
-    suspend fun findByRoll(roll: Int): Student?
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(student: Student)
-
-//    @Query("DELETE FROM student_table")
-//    suspend fun deleteAll()
+  if (lightValue < lightThreshold) {   // If light intensity is below the threshold
+    digitalWrite(LED_PIN, HIGH);       // Turn on LED
+    Serial.println("Low light detected! LED ON");
+  } else {
+    digitalWrite(LED_PIN, LOW);        // Turn off LED
+    Serial.println("Bright light detected! LED OFF");
+  }
+  delay(500);
 }
 
-===============================AppDatabase.kt==========================================
-package com.example.exampracticefinal
+=======================IRsensor=====================
+#define IR_SENSOR_PIN D5   // IR sensor output pin connected to D5
+#define LED_PIN D4         // LED pin connected to D4 (optional)
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-
-@Database(entities = [Student ::class], version = 1)
-abstract class AppDatabase :RoomDatabase(){
-
-    abstract fun studentDao(): StudentDao
-
-    companion object{
-
-        @Volatile
-        private var INSTANCE : AppDatabase?= null
-
-        fun getDatabase(context: Context): AppDatabase {
-
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-
-        }
-    }
+void setup() {
+  Serial.begin(115200);       // Start the Serial Monitor
+  pinMode(IR_SENSOR_PIN, INPUT); // Set the IR sensor pin as input
+  pinMode(LED_PIN, OUTPUT);      // Set the LED pin as output
+  digitalWrite(LED_PIN, LOW);    // Ensure LED is OFF initially
 }
-===============================MAINACTIVITY.KT==========================================
 
-    private lateinit var appDb: AppDatabase
-        appDb = AppDatabase.getDatabase(this)
+void loop() {
+  int sensorValue = digitalRead(IR_SENSOR_PIN); // Read IR sensor value
 
-private fun writeData() {
-        val firstname = binding.etFirstName.text.toString()
-        val lastName = binding.etLastName.text.toString()
-        val rollNo = binding.etRollNo.text.toString()
+  if (sensorValue == LOW) { // Object detected (Active LOW sensor)
+    Serial.println("Obstacle detected!");
+    digitalWrite(LED_PIN, HIGH); // Turn ON LED
+  } else {
+    Serial.println("No obstacle.");
+    digitalWrite(LED_PIN, LOW);  // Turn OFF LED
+  }
 
-        if (firstname.isNotEmpty() && lastName.isNotEmpty() && rollNo.isNotEmpty()) {
-            val student = Student(
-                id = null, firstname, lastName, rollNo.toInt()
-            )
-            lifecycleScope.launch(Dispatchers.IO) {
-                appDb.studentDao().insert(student)
-            }
-
-            binding.etFirstName.text.clear()
-            binding.etLastName.text.clear()
-            binding.etRollNo.text.clear()
-
-            Toast.makeText(this@MainActivity, "Data Added Successfully", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this@MainActivity, "Please Enter Data", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private suspend fun displayData(student: Student) {
-        withContext(Dispatchers.Main) {
-            binding.tvFirstName.text = student.firstname
-            binding.tvLastName.text = student.lastName
-            binding.tvRollNo.text = student.rollNo.toString()
-            Log.d("StudentData", "Firstname: ${student.firstname}, LastName: ${student.lastName}, RollNo: ${student.rollNo}")
-        }
-    }
-
-    private fun readData() {
-        val rollNo = binding.etRollNoRead.text.toString()
-
-        if (rollNo.isNotEmpty()) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val student = appDb.studentDao().findByRoll(rollNo.toInt())
-                if (student != null) {
-                    displayData(student)
-                } else {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "No data found for the given roll number",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(this, "Please enter a roll number", Toast.LENGTH_SHORT).show()
-        }
-    }
+  delay(100); // Small delay for stability
+}
