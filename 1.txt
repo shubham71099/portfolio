@@ -1,257 +1,343 @@
-=====================Temperature(DS18B20)===================
-#include <ESP8266WiFi.h>
-#include <ThingSpeak.h>
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const Product = require("./Product");
 
-#include <DallasTemperature.h>
-#include <OneWire.h>
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-#define ONE_WIRE_BUS 16 // pin for Arduino*********
-#define ONE_WIRE_BUS D0 // pin for nodeMCU*********
-#define LED_PIN D1      // Pin for LED*************
+mongoose.connect("mongodb://localhost:27017/reactexam")
+.then(()=>{
+    console.log("MongoDB COnnected");
+    app.listen(3000,()=>{
+        console.log("Server is running on port 3000");
+    });    
+})
+.catch((error)=> {
+    console.log("Error:",error);
+})
 
-const char* ssid = "Wokwi-GUEST"; // WiFi SSID
-const char* password = "";        // WiFi Password
-unsigned long myChannelNo = 2762404; // ThingSpeak Channel Number
-const char* myWriteAPIkey = "MY_API_KEY"; // ThingSpeak Write API Key
+app.post("/add-product",async (req,res)=> {
+    const {name,description,price,quantity} = req.body;
+    try{
+        const productData = await Product.create({
+            name:name,
+            description:description,
+            price:price,
+            quantity:quantity
+        })
+        res.status(200).json(productData);
+        console.log("Product Added");
+    }catch(error) {
+        res.status(400).send(error);
+    }
+});
 
-const float temperatureThreshold = 30.0; // Set threshold in °C
+app.get("/show-product",async (req,res)=> {
+    try {
+        const showAll = await Product.find();
+        res.json(showAll);
+    } catch (error) {
+        console.log("Error: ",error);        
+    }
+});
 
-WiFiClient client; 
-OneWire oneWire(ONE_WIRE_BUS); 
-DallasTemperature sensors(&oneWire);
+app.get("/show-product/:id",async (req,res)=> {
+    const {id} = req.params;
+    try{
+        const productData = await Product.findById({_id: id});
+        res.status(200).json(productData);
+    } catch(error) {
+        console.log("Error: ",error);
+    }
+});
 
-//LED(short leg) → 220Ω resistor → GND*******************************************
-//connect power to data with resistor D0<-->3V3 through resistor*****************
-void setup() {
-  Serial.begin(115200);
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
-  sensors.begin();
+app.delete("/delete-product/:id",async (req,res)=> {
+    const {id} = req.params;
+    try{
+        const productData = await Product.findByIdAndDelete({_id: id});
+        res.status(200).json(productData);
+    } catch(error) {
+        console.log("Error: ",error);
+    }
+});
+
+app.patch("/update-product/:id",async (req,res)=> {
+    const {id} = req.params;
+    const {name,description,price,quantity} = req.body;
+    try {
+         const updateUser = await Product.findByIdAndUpdate(id,req.body,{new:true});
+         res.status(200).json(updateUser);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+/////Product.js
+
+const mongoose = require("mongoose");
+
+const productSchema = new mongoose.Schema({
+    name: {
+        type:String,
+        required:true
+    },
+    description: {
+        type:String,
+    },
+    price: {
+        type:String,
+    },
+    quantity: {
+        type:String,
+    }
+})
+
+const Product = mongoose.model("Product",productSchema);
+module.exports = Product;
+
+
+////App.js
+
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import View from './components/View';
+import Add from './components/Add';
+import Navbar from './components/Navbar';
+import Edit from './components/Edit';
+
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+      <Navbar/>
+        <Routes>
+          <Route path='/' element={<View/>} />
+          <Route path='/add' element={<Add/>} />
+          <Route path='/:id' element={<Edit/>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+
+
+////Navbar.jsx
+
+import { Link } from "react-router-dom";
+
+
+function Navbar() {
+    return(
+        <>
+            <ul style={{listStyle:"none",display:"flex"}}>
+                <li style={{margin:"30px",padding:"20px"}}><Link to='add'>Add</Link></li>
+                <li style={{margin:"30px",padding:"20px"}}><Link to="/">Display</Link></li>
+            </ul>
+        </>
+    )
+}
+
+export default Navbar;
+
+
+////Add.jsx
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
+function Add() {
+    const [name,setName] = useState("");
+    const [description,setDescription] = useState("");
+    const [price,setPrice] = useState("");
+    const [quantity,setQuantity] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const addProduct = {name,description,price,quantity};
+        const response = await fetch("http://localhost:3000/add-product",{
+            method: "POST",
+            body: JSON.stringify(addProduct),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        const result = await response.json();
+        if(response.ok) {
+            console.log(result);
+            setName("");
+            setDescription("");
+            setPrice("");
+            setQuantity("");
+            alert("Product added successfully");
+            navigate("/");
+        }
+        if(!response.ok) {
+            console.log(result.error);            
+        }
+    }
+
+    return(
+        
+            <form onClick={handleSubmit}>
+                <h2>Add Product</h2>
+                <input type="text" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Product name" required/><br></br><br></br>
+                <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} placeholder="Product description" required/><br></br><br></br>
+                <input type="number" value={price} onChange={(e)=>setPrice(e.target.value)} placeholder="Product price" required/><br></br><br></br>
+                <input type="number" value={quantity} onChange={(e)=>setQuantity(e.target.value)} placeholder="Product quantity" required/><br></br><br></br>
+                {/* <input type="range" min="1" max="5" value={quantity} onChange={(e)=>setQuantity(e.target.value)} placeholder="Product quantity" required/><br></br><br></br> */}
+                <button type="submit" style={{padding:"10px"}}>Add</button>
+            </form>
+       
+    )
+}
+
+export default Add;
+
+
+////View.jsx
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+
+function View() {
+
+    const [data,setData] = useState([]);
+
+    async function getProduct() {
+        const response = await fetch("http://localhost:3000/show-product");
+        const result = await response.json();
+
+        if(response.ok){
+            setData(result);
+            console.log(result);
+        }
+    }
+
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:3000/delete-product/${id}`,{
+            method: 'DELETE'
+        });
+
+        if(response.ok){
+            alert("product deleted successfully");
+            getProduct();
+        }
+
+    }
+
+    
+    useEffect(()=>{
+        getProduct();
+    },[])
+
+
+    return(
+        <div>
+           <h2>Products List</h2>
+           <table border="1px" style={{marginLeft:"500px",marginTop:"50px"}}>
+                <thead>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity Name</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </thead>
+                
+                
+                <tbody>
+                {data?.map((ele)=> (
+                    <tr key={ele._id}>
+                        <td> {ele.name} </td>
+                        <td> {ele.description} </td>
+                        <td> {ele.price} </td>
+                        <td> {ele.quantity} </td>
+                        <td> <button type="submit" onClick={()=>handleDelete(ele._id)}>Delete</button> </td>
+                        <td> <button type="submit"> <Link to={`/${ele._id}`}> Edit </Link> </button>  </td>
+                    </tr>
+                    ))}
+                </tbody>
+                
+
+           </table>
+        </div>
+    )
+}
+
+export default View;
+
+
+
+////Edit.jsx
+
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+
+function Edit() {
+    const [name,setName] = useState("");
+    const [description,setDescription] = useState("");
+    const [price,setPrice] = useState("");
+    const [quantity,setQuantity] = useState("");
+
+    const {id} = useParams();
+    const navigate = useNavigate();
+
+    const getSingleProduct = async() => {
+        const response = await fetch(`http://localhost:3000/show-product/${id}`);
+        const result = await response.json();
+        if(response.ok) {
+            setName(result.name);
+            setDescription(result.description);
+            setPrice(result.price);
+            setQuantity(result.quantity);
+        }
+    }
+
+    const handleUpdate = async(e) => {
+        e.preventDefault();
+        const updatedProduct = {name,description,price,quantity};
+        const response = await fetch(`http://localhost:3000/update-product/${id}`,{
+            method: "PATCH",
+            body: JSON.stringify(updatedProduct),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        if(response.ok){
+            console.log("Updated successfully");
+            navigate("/");         
+        }
+    }
+
+    function cancelUpdate() {
+        navigate("/");
+    }
+
+    useEffect(()=> {
+        getSingleProduct();
+    },[])
+
+    return (
+            <form onSubmit={handleUpdate}>
+            <h2>Edit Product</h2>
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Product name" required/><br></br><br></br>
+            <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)} placeholder="Product description" required/><br></br><br></br>
+            <input type="number" value={price} onChange={(e)=>setPrice(e.target.value)} placeholder="Product price" required/><br></br><br></br>
+            <input type="number" value={quantity} onChange={(e)=>setQuantity(e.target.value)} placeholder="Product quantity" required/><br></br><br></br>
+            <button type="submit" style={{padding:"10px"}}>Update</button>
+            <button type="submit" onClick={cancelUpdate} style={{padding:"10px"}}>Cancel</button>
+    </form>
+    );
+  }
   
-  // Connecting to WiFi
-  Serial.print("Connecting to WiFi");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println("\nConnected to WiFi");
-  Serial.print("Connected to network: ");
-  Serial.println(WiFi.SSID());
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
-  ThingSpeak.begin(client);
-}
-
-void loop() {
-  Serial.print("Requesting temperature... ");
-  sensors.requestTemperatures();
-  float temperatureC = sensors.getTempCByIndex(0);
-  Serial.print("Temperature: ");
-  Serial.println(temperatureC);
-  if (temperatureC > temperatureThreshold) {
-    digitalWrite(LED_PIN, HIGH); // Turn on LED
-    Serial.println("Temperature above threshold! LED ON.");
-  } else {
-    digitalWrite(LED_PIN, LOW); // Turn off LED
-    Serial.println("Temperature below threshold. LED OFF.");
-  }
-
-  int statusCode = ThingSpeak.writeField(myChannelNo, 1, temperatureC, myWriteAPIkey);
-  if (statusCode == 200) {
-    Serial.println("Successfully updated ThingSpeak");
-  } else {
-    Serial.print("Problem updating channel. HTTP error code: ");
-    Serial.println(statusCode);
-  }
-  delay(2000);
-}
-
-=====================UltraSonic===================
-#include <ESP8266WiFi.h>
-#include <ThingSpeak.h>
-
-#define TRIG_PIN D6  // Trigger Pin
-#define ECHO_PIN D5  // Echo Pin
-#define LED_PIN D4   // LED Pin
-#define BUZZER_PIN D3 // Buzzer Pin
-
-const char* ssid = "Wokwi-GUEST";  // WiFi SSID
-const char* password = "";         // WiFi Password
-unsigned long myChannelNo = 2762405; // ThingSpeak Channel Number
-const char* myWriteAPIkey = "YOUR_API_KEY"; // Replace with your ThingSpeak Write API Key
-
-WiFiClient client;
-
-void setup() {
-  Serial.begin(115200);
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-  pinMode(BUZZER_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
-  digitalWrite(BUZZER_PIN, LOW);
-
-  Serial.print("Connecting to WiFi");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println("\nWiFi connected");
-  Serial.print("Connected to network: ");
-  Serial.println(WiFi.SSID());
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
-  ThingSpeak.begin(client);
-}
-
-void loop() {
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-
-  long duration = pulseIn(ECHO_PIN, HIGH); // Measure pulse duration
-  float distance = (duration * 0.034) / 2; // Calculate distance in cm
-
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
-
-  if (distance > 0 && distance <= 20) {
-    digitalWrite(LED_PIN, HIGH);
-    Serial.println("Obstacle detected! LED ON.");
-    digitalWrite(BUZZER_PIN, HIGH);
-  } else {
-    digitalWrite(LED_PIN, LOW);
-    Serial.println("No obstacle. LED OFF.");
-    digitalWrite(BUZZER_PIN, LOW);
-  }
-
-  int statusCode = ThingSpeak.writeField(myChannelNo, 1, distance, myWriteAPIkey);
-  if (statusCode == 200) {
-    Serial.println("Successfully updated ThingSpeak");
-  } else {
-    Serial.print("Failed to update ThingSpeak. HTTP error code: ");
-    Serial.println(statusCode);
-  }
-
-  delay(2000);
-}
-
-
-=====================PulseSensor===================
-#define PULSE_PIN A0  // Pulse Sensor Pin
-#define LED_PIN 13    // LED Pin (Built-in on most Arduino boards)
-
-int threshold = 520;  // Threshold for detecting a heartbeat
-int BPM = 0;          // Beats per minute
-unsigned long lastBeatTime = 0; // Last detected beat time
-
-void setup() {
-  Serial.begin(9600);
-  pinMode(PULSE_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
-}
-
-void loop() {
-  int signal = analogRead(PULSE_PIN);           // Read pulse sensor value
-  unsigned long currentTime = millis();        // Get current time
-
-  if (signal > threshold && (currentTime - lastBeatTime) > 250) { // Detect a beat
-    lastBeatTime = currentTime;                // Update last beat time
-    BPM = 60000 / (currentTime - lastBeatTime); // Calculate BPM
-    Serial.print("BPM: ");
-    Serial.println(BPM);
-
-    digitalWrite(LED_PIN, BPM > 100 ? HIGH : LOW); // Turn LED ON/OFF based on BPM
-  }
-}
-
-
-=====================GasSensor===================
-#define GAS_SENSOR_PIN A0 // Analog pin for Gas Sensor
-#define LED_PIN 13        // LED pin (built-in on most Arduino boards)
-
-int smokeThreshold = 350;
-
-void setup() {
-  Serial.begin(9600);      // Start Serial communication
-  pinMode(GAS_SENSOR_PIN, INPUT); // Set Gas Sensor pin as input
-  pinMode(LED_PIN, OUTPUT);       // Set LED pin as output
-  digitalWrite(LED_PIN, LOW);     // Ensure LED is off initially
-}
-
-void loop() {
-  int smokeValue = analogRead(GAS_SENSOR_PIN); // Read gas sensor value
-  Serial.print("Smoke Value: ");
-  Serial.println(smokeValue);                 // Print smoke value to Serial Monitor
-
-  if (smokeValue > smokeThreshold) {
-    digitalWrite(LED_PIN, HIGH);              // Turn LED ON if smoke value exceeds threshold
-    Serial.println("Warning: High Smoke Level! LED ON");
-  } else {
-    digitalWrite(LED_PIN, LOW);               // Turn LED OFF if smoke value is below threshold
-    Serial.println("Smoke Level Normal. LED OFF");
-  }
-
-  delay(500); // Short delay for stable readings
-}
-
-=======================PhotoResister=====================
-//1st -> power
-//2nd -> A0->2nd && GND->RESISTER->2nd
-
-#define LDR_PIN A0   // LDR connected to analog pin A0
-#define LED_PIN 13   // LED connected to digital pin 13 (built-in)
-
-int lightThreshold = 500; // Adjust this value based on your environment
-
-void setup() {
-  Serial.begin(9600);      // Initialize Serial Monitor
-  pinMode(LDR_PIN, INPUT); // Set LDR pin as input
-  pinMode(LED_PIN, OUTPUT); // Set LED pin as output
-  digitalWrite(LED_PIN, LOW);
-}
-
-void loop() {
-  int lightValue = analogRead(LDR_PIN); // Read the value from the LDR
-  Serial.print("Light Intensity: ");
-  Serial.println(lightValue);
-
-  if (lightValue < lightThreshold) {   // If light intensity is below the threshold
-    digitalWrite(LED_PIN, HIGH);       // Turn on LED
-    Serial.println("Low light detected! LED ON");
-  } else {
-    digitalWrite(LED_PIN, LOW);        // Turn off LED
-    Serial.println("Bright light detected! LED OFF");
-  }
-  delay(500);
-}
-
-=======================IRsensor=====================
-#define IR_SENSOR_PIN D5   // IR sensor output pin connected to D5
-#define LED_PIN D4         // LED pin connected to D4 (optional)
-
-void setup() {
-  Serial.begin(115200);       // Start the Serial Monitor
-  pinMode(IR_SENSOR_PIN, INPUT); // Set the IR sensor pin as input
-  pinMode(LED_PIN, OUTPUT);      // Set the LED pin as output
-  digitalWrite(LED_PIN, LOW);    // Ensure LED is OFF initially
-}
-
-void loop() {
-  int sensorValue = digitalRead(IR_SENSOR_PIN); // Read IR sensor value
-
-  if (sensorValue == LOW) { // Object detected (Active LOW sensor)
-    Serial.println("Obstacle detected!");
-    digitalWrite(LED_PIN, HIGH); // Turn ON LED
-  } else {
-    Serial.println("No obstacle.");
-    digitalWrite(LED_PIN, LOW);  // Turn OFF LED
-  }
-
-  delay(100); // Small delay for stability
-}
+  export default Edit;
