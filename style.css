@@ -356,7 +356,7 @@ span {
 }
 
 .project {
-  background: var(--bg-color);
+  background: var(--second-bg-color);
 }
 .project-item {
   display: grid;
@@ -452,7 +452,7 @@ span {
   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
   align-items: center;
   gap: 7rem;
-  background: var(--second-bg-color);
+  background: var(--bg-color);
   justify-content: center;
 }
 
@@ -565,7 +565,7 @@ button:hover {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  background: var(--bg-color);
+  background: var(--second-bg-color);
 }
 
 .end-section p {
@@ -619,6 +619,86 @@ button:hover {
   opacity: 0.7;
 }
 
+/* Experience Section */
+.experience {
+  background: var(--bg-color);
+  padding: 100px 5% 80px;
+}
+
+.experience h2 {
+  font-size: var(--h2-font);
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Grid Container */
+.experience-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* Experience Box */
+.experience-box {
+  background: var(--second-bg-color);
+  padding: 30px 25px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  box-shadow: 0 0 20px -10px rgba(0, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.experience-box:hover {
+  border: 1px solid #4e5055;
+  box-shadow: 0 0 20px -5px #b09999;
+}
+
+/* Header Layout */
+.experience-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Logo Left-Aligned */
+.company-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Company Text Block */
+.company-details h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.company-details h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.exp-duration {
+  font-size: 0.85rem;
+  color: var(--other-color);
+}
+
+/* Bullet Points */
+.experience-box ul {
+  text-align: left;
+  padding-left: 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--other-color);
+  margin-top: 10px;
+}
 
 
 
