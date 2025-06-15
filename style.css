@@ -638,7 +638,7 @@ button:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 /* Experience Box */
@@ -660,7 +660,7 @@ button:hover {
 .experience-header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 15px;
 }
 
@@ -682,15 +682,16 @@ button:hover {
 .company-details h4 {
   font-size: 0.95rem;
   font-weight: 600;
-  margin: 4px 0;
+  margin: 0;
 }
 
 .exp-duration {
   font-size: 0.85rem;
   color: var(--other-color);
+  margin-top: -20px;
+  margin-bottom: 0;
 }
 
-/* Bullet Points */
 .experience-box ul {
   text-align: left;
   padding-left: 20px;
@@ -700,6 +701,17 @@ button:hover {
   margin-top: 10px;
 }
 
+@media (max-width: 720px) {
+  .company-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+  .company-details h4 {
+    font-size: 0.72rem;
+  }
+}
 
 
 
