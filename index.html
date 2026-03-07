@@ -1,175 +1,209 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Shubham Kumar Jha</title>
-  
-    <link rel="shortcut icon" type="image" href="img/favicon/android-chrome-192x192.png" />
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-    <meta name="description" content="Shubham Kumar Jha Portfolio website" />
-    <meta name="keywords" content="Shubham Kumar Jha, Portfolio, JavaScript" />
-    <meta name="author" content="Shubham Kumar Jha" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"
-      integrity="sha512-BdHyGtczsUoFcEma+MfXc71KJLv/cd+sUsUaYYf2mXpfG/PtBjNXsPo78+rxWjscxUYN2Qr2+DbeGGiJx81ifg=="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/gh/abhijhacodes/sankhya-backend/client-sdk.js?key=6df2fb85-0a6d-4df1-9753-824f450e5dee"
-      type="text/javascript"
-      defer
-    ></script>
+<html lang="en">
 
-    <link rel="canonical" href="https://shubhamkumarjha.in/" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Shubham Kumar Jha</title>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+  <link rel="shortcut icon" type="image" href="img/favicon/android-chrome-192x192.png" />
 
-  <body>
-   <div id="loader">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Shubham Kumar Jha — Full Stack Developer specializing in Spring Boot, React, and scalable enterprise applications." />
+  <meta name="keywords" content="Shubham Kumar Jha, Portfolio, Full Stack Developer, Spring Boot, React, JavaScript" />
+  <meta name="author" content="Shubham Kumar Jha" />
+  <link rel="canonical" href="https://shubhamkumarjha.in/" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+
+  <!-- Typed.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"
+    integrity="sha512-BdHyGtczsUoFcEma+MfXc71KJLv/cd+sUsUaYYf2mXpfG/PtBjNXsPo78+rxWjscxUYN2Qr2+DbeGGiJx81ifg=="
+    crossorigin="anonymous"></script>
+
+  <!-- Sankhya Analytics -->
+  <script
+    src="https://cdn.jsdelivr.net/gh/abhijhacodes/sankhya-backend/client-sdk.js?key=6df2fb85-0a6d-4df1-9753-824f450e5dee"
+    type="text/javascript" defer></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+  <!-- ========== LOADER ========== -->
+  <div id="loader">
     <h1>EAT</h1>
     <h1>CODE</h1>
     <h1>SLEEP</h1>
-   </div>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
+  </div>
+
+  <!-- ========== PROGRESS BAR ========== -->
+  <div class="progress-container">
+    <div class="progress-bar"></div>
+  </div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <header id="top-header">
+    <a href="#" class="logo">
+      <img src="img/logo.png" alt="Shubham Kumar Jha" />
+    </a>
+
+    <div class="bx bx-menu" id="menu-icon"></div>
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <ul class="navlist" id="navlist">
+      <li><a href="#home" data-section="home">Home</a></li>
+      <li><a href="#about" data-section="about">About</a></li>
+      <li><a href="#experience" data-section="experience">Experience</a></li>
+      <li><a href="#project" data-section="project">Projects</a></li>
+      <li><a href="https://shubhamkumarjha.hashnode.dev/" target="_blank">Blog</a></li>
+      <li><a href="#contact" data-section="contact">Contact</a></li>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <i class="bx bx-moon"></i>
+      </button>
+    </ul>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="home" id="home">
+    <div class="hero-bg">
+      <div class="hero-bg-orb"></div>
+      <div class="hero-bg-orb"></div>
+      <div class="hero-bg-orb"></div>
     </div>
 
-    <header id="top-header">
-      <a href="#" class="logo"
-        ><img src="img/logo.png" alt="Shubham Kumar Jha" />
+    <div class="hero-text">
+      <h3 class="reveal">Hello, I am</h3>
+      <h1 class="reveal reveal-delay-1">
+        <span>Shubham</span> <span>Jha</span>
+      </h1>
+
+      <div class="typing-text-container reveal reveal-delay-2">
+        <h4 class="a-text">A</h4>
+        <h4 class="typing-text"></h4>
+      </div>
+
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="mailto:shubham71099@gmail.com" target="_blank" class="btn email-btn">
+          Email <i class="bx bxl-gmail email-icon"></i>
+        </a>
+
+      </div>
+
+      <div class="hero-socials reveal reveal-delay-4">
+        <a href="https://github.com/shubham71099/" target="_blank" aria-label="GitHub">
+          <i class="bx bxl-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/shubhamkumarjha7/" target="_blank" aria-label="LinkedIn">
+          <i class="bx bxl-linkedin-square"></i>
+        </a>
+        <a href="https://www.instagram.com/shubham71099/" target="_blank" aria-label="Instagram">
+          <i class="bx bxl-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom cursor -->
+  <div class="cursor"></div>
+
+  <!-- ========== ABOUT ========== -->
+  <section class="about" id="about">
+    <div class="about-img reveal">
+      <img src="img/about10.png" alt="Shubham Kumar Jha" />
+    </div>
+
+    <div class="about-text">
+      <h2 class="reveal">About Me</h2>
+      <h5 class="reveal reveal-delay-1">
+        <span>I am Shubham Jha,</span> a Full Stack Developer
+      </h5>
+
+      <ol class="reveal reveal-delay-2">
+        <li>
+          I'm a Software Developer currently working at devx AI Labs, where I build
+          scalable web applications including community forum platforms and ecommerce D2C solutions.
+        </li>
+        <li>
+          I specialize in building enterprise-grade applications and RESTful APIs using
+          Spring Boot, React and Node.js, with experience across the full stack.
+        </li>
+        <li>
+          I hold an MCA from Sarvajanik College of Engineering & Technology (SCET)
+          and a BCA from Veer Narmad South Gujarat University (VNSGU).
+        </li>
+        <li>
+          I'm always open to collaborating on interesting projects — feel free to connect
+          and let's build something great together.
+        </li>
+      </ol>
+
+      <a href="mailto:shubham71099@gmail.com" target="_blank" class="btn whatsapp-btn reveal reveal-delay-3">Email <i
+          class="bx bxl-gmail" style="font-size:1.2rem; color:#ea4335;"></i>
       </a>
-      <div class="bx bx-menu" id="menu-icon"></div>
+    </div>
+  </section>
 
-      <ul class="navlist">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#project">Projects</a></li>
-        <li><a href="https://shubhamkumarjha.hashnode.dev/" target="_blank">Blog</a></li>        
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </header>
+  <!-- ========== SKILLS ========== -->
+  <section class="skills" id="skills">
+    <h2 class="reveal">Skills</h2>
 
-    <section class="home" id="home">
-      <div class="hero-text">
-        <h3>Hello, I am</h3>
-        <h1>
-          <span>S</span><span>h</span><span>u</span><span>b</span><span>h</span
-          ><span>a</span><span>m</span> <span class="surname-start">J</span
-          ><span>h</span><span>a</span>
-        </h1>
-
-        <div class="typing-text-container">
-          <h4 class="a-text">A</h4>
-          <h4 class="typing-text"></h4>
-        </div>
-
-        <a
-          href="mailto:shubham71099@gmail.com"
-          target="_blank"
-          class="btn email-btn"
-          >Email
-          <i class="bx bxl-gmail email-icon"></i>
-        </a>
+    <div class="skills-container reveal reveal-delay-1">
+      <h3>Languages & Tools</h3>
+      <div class="skills-img">
+        <div class="skill-card"><img src="img/html.png" alt="HTML" /><span>HTML</span></div>
+        <div class="skill-card"><img src="img/css.png" alt="CSS" /><span>CSS</span></div>
+        <div class="skill-card"><img src="img/js.png" alt="JavaScript" /><span>JavaScript</span></div>
+        <div class="skill-card"><img src="img/java.png" alt="Java" /><span>Java</span></div>
+        <div class="skill-card"><img src="img/cpp.png" alt="C++" /><span>C++</span></div>
+        <div class="skill-card"><img src="img/python.png" alt="Python" /><span>Python</span></div>
       </div>
-    </section>
-<div class="cursor"></div>
-    <section class="about" id="about">
-      <div class="about-img">
-        <img src="img/about10.png" alt="Shubham Kumar Jha" />
+    </div>
+
+    <div class="skills-container reveal reveal-delay-2">
+      <h3>Frameworks & Libraries</h3>
+      <div class="skills-img">
+        <div class="skill-card"><img src="img/spring.png" alt="Spring" /><span>Spring</span></div>
+        <div class="skill-card"><img src="img/react.png" alt="React" /><span>React</span></div>
+        <div class="skill-card"><img src="img/node.png" alt="Node.js" /><span>Node.js</span></div>
+        <div class="skill-card"><img src="img/express.png" alt="Express" /><span>Express</span></div>
+        <div class="skill-card"><img src="img/bootstrap.png" alt="Bootstrap" /><span>Bootstrap</span></div>
       </div>
+    </div>
 
-      <div class="about-text">
-        <h2>About Me</h2>
-        <h5><span>I am Shubham Jha,</span>  a Full Stack Developer </h5>
-
-        <ol>
-          <li>
-            I completed MCA from Sarvajanik College of Engineering & Technology (SCET) 
-            and a BCA from Veer Narmad South Gujarat University (VNSGU).
-          </li>
-
-          <li>
-              I specialize in building scalable enterprise applications and RESTful APIs using Spring Boot, Spring MVC and ReactJS.
-          </li>
-          <li>
-              My expertise spans a wide spectrum of programming languages
-              including C, C++, Java and Python, which form the backbone of my passion for technology and software development
-          </li>
-
-          <li>
-            I am looking forward to collborating on projects. I invite you to connect with me to discuss
-            coding, share insights and explore potential collaborations.
-          </li>
-        </ol>
-        <a
-          href="https://api.whatsapp.com/send/?phone=%2B917383988791&text=Hello%20Shubham&app_absent=0" target="_blank"
-          class="btn whatsapp-btn"
-          >Text on <i class="bx bxl-whatsapp whatsapp-icon"></i>
-        </a>
+    <div class="skills-container reveal reveal-delay-3">
+      <h3>Databases & Others</h3>
+      <div class="skills-img">
+        <div class="skill-card"><img src="img/mysql.png" alt="MySQL" /><span>MySQL</span></div>
+        <div class="skill-card"><img src="img/mongodb.png" alt="MongoDB" /><span>MongoDB</span></div>
+        <div class="skill-card"><img src="img/git.png" alt="Git" /><span>Git</span></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="skills" id="skills">
-      <h2>Skills</h2>
-
-      <div class="skills-container">
-        <h3>Languages and Tools</h3>
-        <div class="skills-img">
-          <img src="img/html.png" alt="Shubham Kumar Jha" />
-          <img src="img/css.png" alt="Shubham Kumar Jha" />
-          <img src="img/js.png" alt="Shubham Kumar Jha" />
-          <img src="img/java.png" alt="Shubham Kumar Jha" />
-          <img src="img/cpp.png" alt="Shubham Kumar Jha" />
-          <img src="img/python.png" alt="Shubham Kumar Jha" />
-        </div>
-      </div>
-
-      <div class="skills-container">
-        <h3>Frameworks and libraries</h3>
-        <div class="skills-img">
-          <img src="img/spring.png" alt="Shubham Kumar Jha" />
-          <img src="img/react.png" alt="Shubham Kumar Jha" />
-          <img src="img/node.png" alt="Shubham Kumar Jha" />
-          <img src="img/express.png" alt="Shubham Kumar Jha" />
-          <img src="img/bootstrap.png" alt="Shubham Kumar Jha" />
-        </div>
-      </div>
-
-      <div class="skills-container">
-        <h3>Databases and Others</h3>
-        <div class="skills-img">
-          <img src="img/mysql.png" alt="Shubham Kumar Jha" />
-          <img src="img/mongodb.png" alt="Shubham Kumar Jha" />
-          <img src="img/git.png" alt="Shubham Kumar Jha" />
-        </div>
-      </div>
-    </section>
-
-    
-    <section class="experience" id="experience">
-    <h2>Experience</h2>
+  <!-- ========== EXPERIENCE ========== -->
+  <section class="experience" id="experience">
+    <h2 class="reveal">Experience</h2>
 
     <div class="experience-container">
-      <div class="experience-box">
+      <div class="experience-box reveal reveal-delay-1">
         <div class="experience-header">
           <div class="experience-header-left">
-            <a href="https://devxcommerce.com/" target="_blank">
+            <a href="https://www.devxlabs.ai/" target="_blank">
               <img src="img/devx.jpg" alt="DevX" class="company-logo" />
             </a>
             <div class="company-details">
-              <h4>SDE 1 - devX AI labs</h4>
+              <h4>SDE 1 - devx AI labs</h4>
               <p class="exp-duration">Jan 2026 – Present</p>
             </div>
           </div>
@@ -179,15 +213,17 @@
           </div>
         </div>
         <ul>
-          <li>Working on ecommerce D2C projects, building scalable solutions and implementing features to enhance user experience and business growth.</li>
+          <li>Working on diverse projects including a large-scale community forum platform and ecommerce D2C solutions,
+            building scalable architectures and implementing features to enhance user experience and drive business
+            growth.</li>
         </ul>
       </div>
 
-      <div class="experience-box">
+      <div class="experience-box reveal reveal-delay-2">
         <div class="experience-header">
           <div class="experience-header-left">
             <a href="https://www.njgroup.in/" target="_blank">
-              <img src="img/nj.jpg" alt="Shubham Kumar Jha" class="company-logo" />
+              <img src="img/nj.jpg" alt="NJ Technologies" class="company-logo" />
             </a>
             <div class="company-details">
               <h4>Full Stack Developer - NJ Technologies</h4>
@@ -200,213 +236,210 @@
           </div>
         </div>
         <ul>
-          <li> Worked with React and Spring Framework to build enterprise-grade applications and scalable RESTful APIs.
-            Part of the <a href="https://www.njwealth.in/" target="_blank" style="color: inherit; text-decoration: none; cursor: pointer;"> NJ INDIA INVEST </a> E-Wealth Registration team, 
-            integrated third-party APIs for identity verification, regulatory compliance and real-time client onboarding.
+          <li>Worked with React and Spring Framework to build enterprise-grade applications and scalable RESTful APIs.
+            Part of the <a href="https://www.njwealth.in/" target="_blank"
+              style="color: inherit; text-decoration: none;">NJ INDIA INVEST</a> E-Wealth Registration team,
+            integrated third-party APIs for identity verification, regulatory compliance and real-time client
+            onboarding.
           </li>
         </ul>
       </div>
     </div>
   </section>
 
+  <!-- ========== PROJECTS ========== -->
+  <section class="project" id="project">
+    <div class="project-text-center">
+      <h2 class="reveal">Projects</h2>
+      <h4 class="reveal reveal-delay-1">Some of the projects I have worked on</h4>
+    </div>
 
-
-
-    <section class="project" id="project">
-      <div class="project-text-center">
-        <h2>Projects</h2>
-        <h4>Some of the projects i have worked on</h4>
+    <div class="project-item">
+      <div class="project-box reveal">
+        <div class="project-img-wrapper">
+          <img src="img/careerhub.jpg" alt="CareerHub" />
+        </div>
+        <div class="project-info">
+          <h4>CareerHub | Job Portal</h4>
+          <div class="project-tags">
+            <span class="project-tag">Laravel</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/shubham71099/CareerHub/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="project-item">
-        
-
-        <div class="project-box">
-          <p>
-            <img src="img/careerhub.jpg" alt="Shubham Kumar Jha" />
-            CareerHub | Job Portal
-          </p>
-
-          <a
-            href="https://github.com/shubham71099/CareerHub/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
+      <div class="project-box reveal reveal-delay-1">
+        <div class="project-img-wrapper">
+          <img src="img/snakegame.png" alt="Snake Game" />
         </div>
-
-         <div class="project-box">
-          <p>
-            <img src="img/snakegame.png" alt="Shubham Kumar Jha" />
-            Snake Game
-          </p>
-
-          <a
-            href="https://snakegameshubham.netlify.app/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
+        <div class="project-info">
+          <h4>Snake Game</h4>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://snakegameshubham.netlify.app/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
         </div>
-
-
-        <div class="project-box">
-          <p>
-            <img src="img/scetgram2.jpg" alt="Shubham Kumar Jha" />
-            Scetgram | social media
-          </p>
-
-          <a
-            href="https://scetgram.netlify.app/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
-        </div>
-
-        <div class="project-box">
-          <p>
-            <img src="img/qr.jpg" alt="Shubham Kumar Jha" />
-            QR Code Generator
-          </p>
-          <a
-            href="https://online-qr-codes-generator.netlify.app/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
-        </div>
-
-
-        <div class="project-box">
-          <p>
-            <img src="img/enc1.jpg" alt="Shubham Kumar Jha" />
-            Text to Emoji | Emoji to Text
-          </p>
-
-          <a
-            href="https://texts-to-emojis.netlify.app/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
-        </div>
-
-
-        <div class="project-box">
-          <p>
-            <img src="img/invoice.png" alt="Shubham Kumar Jha" />
-            Online Invoice Generator
-          </p>
-          <a
-            href="https://onlineinvoice.netlify.app/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
-        </div>
-
-        <div class="project-box">
-          <p>
-            <img src="img/shopmart.png" alt="Shubham Kumar Jha" />
-            Shopmaarts | E-commerce
-          </p>
-          <a
-            href="https://github.com/shubham71099/shopmaarts/"
-            target="_blank"
-            class="s-btnn"
-            >View More</a
-          >
-        </div>
-
-     
-        
-
-      </div>
-    </section>
-
-   
-
-    <section class="contact" id="contact">
-      <div class="left-contact">
-        <img src="img/drawio.svg" class="drawio"/>
-        <!-- <div class="in">
-          <a
-            href="https://api.whatsapp.com/send/?phone=%2B917383988791&text=Hello%20Shubham&app_absent=0"
-            target="_blank"
-          >
-            <i class="bx bxl-whatsapp"></i>
-          </a>
-          <h4>Whatsapp</h4>
-        </div>
-
-        <div class="in">
-          <a href="https://www.instagram.com/shubham71099/ " target="_blank">
-            <i class="bx bxl-instagram"></i
-          ></a>
-          <h4>Instagram</h4>
-        </div>
-
-        <div class="in">
-          <a
-            href="https://www.linkedin.com/in/shubhamkumarjha7/"
-            target="_blank"
-          >
-            <i class="bx bxl-linkedin-square"></i>
-          </a>
-          <h4>Linkedin</h4>
-        </div> -->
       </div>
 
-        <form class="form" id="contact-form">
-            <h2 class="contact-h2">Get in Touch</h2>
-            <input type="text" name="name" placeholder="Name" autocomplete="off" id="name" oninput="upperCase()" required></input></p>
-            <input type="text" name="email" placeholder="Email" autocomplete="off" id="email" oninput="lowerCase()" required></input></p>
-            <input type="text" name="mobile" placeholder="Mobile" autocomplete="off" id="mobile" required></input></p>
-            <input type="text" name="message" placeholder="Enter your message" autocomplete="off" id="message" required></input></p>
-            <button type="button"
-                      onclick="sendEmail()"
-                      class="btn"
-                      id="submit-btn">Send Message</button>  
-        </form>
-    </section>
-
-    <section class="end-section">
-      <!-- <p>© 2024 All Rights Reserved.</p> -->
-      <div class="visitors-display"></div>
-      <div class="end-icons">
-        <!-- <a
-          href="https://api.whatsapp.com/send/?phone=%2B917383988791&text=Hello%20Shubham&app_absent=0"
-          target="_blank"
-          ><i class="bx bxl-whatsapp"></i></a> -->
-        <a href="https://github.com/shubham71099/" target="_blank"
-          ><i class="bx bxl-github"></i></a>
-        <a href="https://www.instagram.com/shubham71099/" target="_blank"
-          ><i class="bx bxl-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/shubhamkumarjha7/" target="_blank"
-          ><i class="bx bxl-linkedin-square"></i></a>
+      <div class="project-box reveal reveal-delay-2">
+        <div class="project-img-wrapper">
+          <img src="img/scetgram2.jpg" alt="Scetgram" />
+        </div>
+        <div class="project-info">
+          <h4>Scetgram | Social Media</h4>
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+          </div>
+          <div class="project-links">
+            <a href="https://scetgram.netlify.app/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <a href="#" class="scroll-bttn"><i class="bx bx-chevron-up"></i> </a>
+      <div class="project-box reveal">
+        <div class="project-img-wrapper">
+          <img src="img/qr.jpg" alt="QR Code Generator" />
+        </div>
+        <div class="project-info">
+          <h4>QR Code Generator</h4>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://online-qr-codes-generator.netlify.app/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
-      integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+      <div class="project-box reveal reveal-delay-1">
+        <div class="project-img-wrapper">
+          <img src="img/enc1.jpg" alt="Text to Emoji" />
+        </div>
+        <div class="project-info">
+          <h4>Text to Emoji | Emoji to Text</h4>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://texts-to-emojis.netlify.app/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="project-box reveal reveal-delay-2">
+        <div class="project-img-wrapper">
+          <img src="img/invoice.png" alt="Invoice Generator" />
+        </div>
+        <div class="project-info">
+          <h4>Online Invoice Generator</h4>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">HTML</span>
+          </div>
+          <div class="project-links">
+            <a href="https://onlineinvoice.netlify.app/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <script>
-      var loader = document.getElementById("preloader");
+      <div class="project-box reveal">
+        <div class="project-img-wrapper">
+          <img src="img/shopmart.png" alt="Shopmaarts" />
+        </div>
+        <div class="project-info">
+          <h4>Shopmaarts | E-commerce</h4>
+          <div class="project-tags">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">MySQL</span>
+            <span class="project-tag">Laravel</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/shubham71099/shopmaarts/" target="_blank" class="s-btnn">
+              View More <i class="bx bx-right-arrow-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      window.addEventListener("loader",function(){
-        loader.style.display = "none";
-      })
-    </script>
+  <!-- ========== CONTACT ========== -->
+  <section class="contact" id="contact">
+    <div class="left-contact">
+      <img src="img/drawio.svg" class="drawio" alt="Contact illustration" />
+    </div>
 
-  </body>
+    <form class="form" id="contact-form">
+      <h2 class="contact-h2">Get in Touch</h2>
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Name" autocomplete="off" id="name" oninput="upperCase()" required />
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email" autocomplete="off" id="email" oninput="lowerCase()"
+          required />
+      </div>
+      <div class="form-group">
+        <input type="tel" name="mobile" placeholder="Mobile" autocomplete="off" id="mobile" required />
+      </div>
+      <div class="form-group">
+        <input type="text" name="message" placeholder="Enter your message" autocomplete="off" id="message" required />
+      </div>
+      <button type="button" onclick="sendEmail()" class="btn" id="submit-btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <section class="end-section">
+    <div class="visitors-display"></div>
+    <div class="end-icons">
+      <a href="https://github.com/shubham71099/" target="_blank" aria-label="GitHub">
+        <i class="bx bxl-github"></i>
+      </a>
+      <a href="https://www.instagram.com/shubham71099/" target="_blank" aria-label="Instagram">
+        <i class="bx bxl-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/shubhamkumarjha7/" target="_blank" aria-label="LinkedIn">
+        <i class="bx bxl-linkedin-square"></i>
+      </a>
+    </div>
+    <p class="copyright">©
+      <script>document.write(new Date().getFullYear())</script> All rights reserved.
+    </p>
+  </section>
+
+  <!-- Scroll to top -->
+  <a href="#" class="scroll-bttn" id="scroll-top"><i class="bx bx-chevron-up"></i></a>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+    integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="script.js"></script>
+</body>
+
 </html>
