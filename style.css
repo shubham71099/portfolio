@@ -1994,7 +1994,7 @@ p:before {
   .company-location {
     align-self: flex-end;
     flex-direction: row;
-    gap: 4rem;
+    gap: 3rem;
   }
 
   .form {
