@@ -458,6 +458,29 @@ header.sticky {
   animation-duration: 22s;
 }
 
+/* Extra orbs for more visual richness */
+.hero-bg-orb:nth-child(4) {
+  width: 350px;
+  height: 350px;
+  background: #a855f7;
+  top: 10%;
+  left: 30%;
+  animation-delay: -10s;
+  animation-duration: 28s;
+  opacity: 0.12;
+}
+
+.hero-bg-orb:nth-child(5) {
+  width: 250px;
+  height: 250px;
+  background: #06b6d4;
+  bottom: 5%;
+  right: 20%;
+  animation-delay: -5s;
+  animation-duration: 24s;
+  opacity: 0.15;
+}
+
 @keyframes floatOrb {
 
   0%,
@@ -486,6 +509,229 @@ header.sticky {
   background-image: radial-gradient(circle, var(--text-muted) 1px, transparent 1px);
   background-size: 40px 40px;
   opacity: 0.08;
+}
+
+/* ---- Particle Network Canvas ---- */
+.hero-particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- Animated Grid Lines ---- */
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid-line {
+  position: absolute;
+  opacity: 0;
+  animation: gridPulse 6s ease-in-out infinite;
+}
+
+.grid-line-h {
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+}
+
+.grid-line-v {
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--accent-glow), transparent);
+}
+
+.grid-line:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.grid-line:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.grid-line:nth-child(3) {
+  animation-delay: 2s;
+}
+
+.grid-line:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+.grid-line:nth-child(5) {
+  animation-delay: 1.5s;
+}
+
+.grid-line:nth-child(6) {
+  animation-delay: 2.5s;
+}
+
+@keyframes gridPulse {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---- Floating Geometric Shapes ---- */
+.hero-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-shape {
+  position: absolute;
+  opacity: 0.12;
+  animation: shapeFloat 12s ease-in-out infinite;
+}
+
+.shape-ring {
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  animation-duration: 14s;
+}
+
+.shape-ring-sm {
+  width: 40px;
+  height: 40px;
+  border-color: var(--accent-secondary);
+  animation-duration: 10s;
+  animation-delay: -3s;
+}
+
+.shape-triangle {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 43px solid var(--accent);
+  opacity: 0.08;
+  animation-duration: 16s;
+  animation-delay: -5s;
+}
+
+.shape-square {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--accent-secondary);
+  transform: rotate(45deg);
+  animation-duration: 18s;
+  animation-delay: -8s;
+}
+
+.shape-cross {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  opacity: 0.1;
+  animation-duration: 15s;
+  animation-delay: -2s;
+}
+
+.shape-cross::before,
+.shape-cross::after {
+  content: '';
+  position: absolute;
+  background: var(--accent-light);
+}
+
+.shape-cross::before {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.shape-cross::after {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.shape-dot-cluster {
+  width: 50px;
+  height: 50px;
+  background-image:
+    radial-gradient(circle, var(--accent) 2px, transparent 2px),
+    radial-gradient(circle, var(--accent-secondary) 2px, transparent 2px),
+    radial-gradient(circle, var(--accent-light) 2px, transparent 2px),
+    radial-gradient(circle, var(--accent) 1.5px, transparent 1.5px);
+  background-position: 5px 5px, 25px 10px, 15px 30px, 35px 35px;
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  animation-duration: 20s;
+  animation-delay: -7s;
+}
+
+@keyframes shapeFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+
+  50% {
+    transform: translateY(10px) rotate(-3deg);
+  }
+
+  75% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+/* ---- Accent Glow Line ---- */
+.hero-accent-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-gradient);
+  z-index: 1;
+  opacity: 0.6;
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 60px var(--accent-glow);
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .hero-grid-lines .grid-line-h {
+  background: linear-gradient(90deg, transparent, rgba(108, 99, 255, 0.15), transparent);
+}
+
+[data-theme="light"] .hero-grid-lines .grid-line-v {
+  background: linear-gradient(180deg, transparent, rgba(108, 99, 255, 0.15), transparent);
+}
+
+[data-theme="light"] .hero-shape {
+  opacity: 0.08;
+}
+
+[data-theme="light"] .hero-accent-line {
+  opacity: 0.4;
 }
 
 .hero-text {
@@ -687,6 +933,62 @@ header.sticky {
   gap: 4rem;
   padding: var(--section-padding);
   background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating Code Symbols Background */
+.about-code-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.about-code-symbol {
+  position: absolute;
+  font-family: 'Courier New', 'Fira Code', monospace;
+  color: var(--accent);
+  opacity: 0;
+  white-space: nowrap;
+  user-select: none;
+  animation: codeSymbolFloat linear forwards;
+}
+
+@keyframes codeSymbolFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(100%) rotate(0deg) scale(0.8);
+  }
+
+  10% {
+    opacity: 0.22;
+  }
+
+  50% {
+    opacity: 0.15;
+  }
+
+  90% {
+    opacity: 0.1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-120%) rotate(15deg) scale(1.1);
+  }
+}
+
+[data-theme="light"] .about-code-symbol {
+  color: var(--accent);
+}
+
+/* Ensure about content stays above the animation */
+.about-img,
+.about-text {
+  position: relative;
+  z-index: 1;
 }
 
 .about-img {

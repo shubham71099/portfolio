@@ -285,15 +285,17 @@ async function sendEmail() {
     return;
   }
 
-  const endpoint = "https://email-p1piz6qm.b4a.run/api/email/send";
-
-  const emailMessage = `<b>Name:</b> ${name}<br/><b>Email:</b> ${email}<br/><b>Mobile:</b> ${mobile}<br/><b>Message:</b> ${message}`;
+  const endpoint = "https://api.web3forms.com/submit";
 
   const body = {
-    emailBody: emailMessage,
-    emailSubject: `New message on portfolio from ${name}`,
-    reciever: "shubham71099@gmail.com",
-    apiKey: "jF45&^dfUE34%fjg",
+    access_key: "c5ea2de1-7ed9-4f9d-a0f3-b2be9cc32055",
+    subject: `New message on portfolio from ${name}`,
+    from_name: "Contact Form",
+    botcheck: "",
+    name: name,
+    email: email,
+    mobile: mobile,
+    message: message,
   };
 
   try {
@@ -469,3 +471,215 @@ function lowerCase() {
   setInterval(spawnSnippet, 2500);
 })();
 
+// ========== ABOUT SECTION — FLOATING CODE SYMBOLS ==========
+(function () {
+  const container = document.getElementById("about-code-bg");
+  if (!container) return;
+
+  const aboutSection = document.getElementById("about");
+  if (!aboutSection) return;
+
+  const symbols = [
+    "{ }", "< />", "=>", "( )", "&&", "||", "!=", "===",
+    "//", "/**/", "[ ]", "::", "++", "--", "**", "??",
+    "func", "let", "var", "if", "else", "for", "return",
+    "class", "new", "null", "true", "0x", "#!", ">>",
+    "${}", "<>", "/>", "...", ":=", "->", "fn()",
+    "int", "void", "@app", "pip", "npm", "git",
+  ];
+
+  const colors = [
+    "var(--accent)",
+    "var(--accent-light)",
+    "var(--accent-secondary)",
+    "#ff6b9d",
+    "#a855f7",
+  ];
+
+  let activeCount = 0;
+  const MAX_SYMBOLS = 12;
+  let isVisible = false;
+  let spawnInterval;
+
+  function spawnSymbol() {
+    if (!isVisible || activeCount >= MAX_SYMBOLS) return;
+
+    const el = document.createElement("span");
+    el.className = "about-code-symbol";
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    // Random position
+    el.style.left = (5 + Math.random() * 90) + "%";
+    el.style.bottom = "-30px";
+
+    // Random styling
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    el.style.fontSize = (12 + Math.random() * 18) + "px";
+    el.style.fontWeight = Math.random() > 0.5 ? "700" : "400";
+
+    // Random animation duration
+    const duration = 8 + Math.random() * 14;
+    el.style.animationDuration = duration + "s";
+    el.style.animationDelay = (Math.random() * 2) + "s";
+
+    container.appendChild(el);
+    activeCount++;
+
+    // Remove after animation
+    setTimeout(function () {
+      el.remove();
+      activeCount--;
+    }, (duration + 3) * 1000);
+  }
+
+  // Only spawn when about section is visible
+  const observer = new IntersectionObserver(function (entries) {
+    isVisible = entries[0].isIntersecting;
+    if (isVisible && !spawnInterval) {
+      // Initial burst
+      for (let i = 0; i < 6; i++) {
+        setTimeout(spawnSymbol, i * 600);
+      }
+      spawnInterval = setInterval(spawnSymbol, 2000);
+    } else if (!isVisible && spawnInterval) {
+      clearInterval(spawnInterval);
+      spawnInterval = null;
+    }
+  }, { threshold: 0.1 });
+
+  observer.observe(aboutSection);
+})();
+
+// ========== HERO PARTICLE NETWORK ==========
+(function () {
+  const canvas = document.getElementById("hero-particles");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const heroSection = document.querySelector(".home");
+  if (!heroSection) return;
+
+  let particles = [];
+  let animId;
+  let w, h;
+  const PARTICLE_COUNT = 60;
+  const CONNECTION_DIST = 140;
+  const MOUSE_RADIUS = 180;
+  let mouse = { x: -9999, y: -9999 };
+
+  function resize() {
+    const rect = heroSection.getBoundingClientRect();
+    w = canvas.width = rect.width;
+    h = canvas.height = rect.height;
+  }
+
+  function createParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        r: 1.5 + Math.random() * 1.5,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    const isDark = document.documentElement.getAttribute("data-theme") !== "light";
+    const particleColor = "rgba(108,99,255,";
+    const lineColor = "rgba(108,99,255,";
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < CONNECTION_DIST) {
+          const opacity = isDark
+            ? (1 - dist / CONNECTION_DIST) * 0.15
+            : (1 - dist / CONNECTION_DIST) * 0.1;
+          ctx.beginPath();
+          ctx.strokeStyle = lineColor + opacity + ")";
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw particles & mouse connections
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Mouse interaction
+      const mdx = p.x - mouse.x;
+      const mdy = p.y - mouse.y;
+      const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (mDist < MOUSE_RADIUS) {
+        const mOpacity = isDark
+          ? (1 - mDist / MOUSE_RADIUS) * 0.3
+          : (1 - mDist / MOUSE_RADIUS) * 0.2;
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(0,212,255," + mOpacity + ")";
+        ctx.lineWidth = 0.8;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+
+      // Draw particle
+      ctx.beginPath();
+      const pOpacity = isDark ? 0.5 : 0.35;
+      ctx.fillStyle = particleColor + pOpacity + ")";
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Move
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Bounce
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  heroSection.addEventListener("mousemove", function (e) {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  heroSection.addEventListener("mouseleave", function () {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  const observer = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      if (!animId) draw();
+    } else {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  }, { threshold: 0.1 });
+
+  observer.observe(heroSection);
+
+  window.addEventListener("resize", function () {
+    resize();
+    createParticles();
+  });
+
+  resize();
+  createParticles();
+})();
